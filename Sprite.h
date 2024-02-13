@@ -32,6 +32,8 @@ public:
     int getDirection();
 
     void rotate(float x);
+    void setRotation(float x);
+    float getRotation();
 
     int getHasStarted();
     void setHasStarted(int hasStartedVal);

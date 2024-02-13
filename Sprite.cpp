@@ -111,6 +111,14 @@ void Sprite::rotate(float x) {
     sprite.rotate(x);
 }
 
+void Sprite::setRotation(float x) {
+    sprite.setRotation(x);
+}
+
+float Sprite::getRotation() {
+    return sprite.getRotation();
+}
+
 int Sprite::getHasStarted() {
     return has_started;
 }
@@ -175,20 +183,24 @@ void Sprite::rotateIfNeeded(float screenWidth, float screenHeight) {
     sf::Vector2f position = getPosition();
 
     if (position.x >= innerXMaxOffsetLoc && position.y <= (getSpriteHeight()/2)) {
-        rotate(90);
+        //rotate(90);
         setDirection(90);
+        setRotation(90);
         has_reached_corner = 1;
     } else if (position.x >= innerXMaxOffsetLoc && position.y >= innerYMaxOffsetLoc) {
-        rotate(90);
+        //rotate(90);
         setDirection(180);
+        setRotation(180);
         has_reached_corner = 1;
     } else if (position.x <= (getSpriteWidth()/2) && position.y >= innerYMaxOffsetLoc) {
-        rotate(90);
+        //rotate(90);
         setDirection(270);
+        setRotation(270);
         has_reached_corner = 1;
     } else if (position.x <= (getSpriteWidth()/2) && position.y <= (getSpriteHeight()/2) && getHasStarted() == 1) {
-        rotate(90);
+        //rotate(90);
         setDirection(0);
+        setRotation(0);
         has_reached_corner = 1;
         // Delete the sprites that are marked for deletion.
         markForDeletion();
