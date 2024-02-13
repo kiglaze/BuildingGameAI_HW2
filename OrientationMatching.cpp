@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <cmath>
-class OrientationBehavior : public SteeringBehavior {
+class OrientationMatching : public SteeringBehavior {
 public:
     void execute() override {
         // Implementation for orientation-changing behavior

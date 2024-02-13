@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <cmath>
-class VelocityBehavior : public SteeringBehavior {
+class VelocityMatching : public SteeringBehavior {
 public:
     void execute() override {
         // Implementation for velocity-changing behavior

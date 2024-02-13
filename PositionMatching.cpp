@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <cmath>
-class PositionBehavior : public SteeringBehavior {
+class PositionMatching : public SteeringBehavior {
 public:
     void execute() override {
         // Implementation for position-changing behavior
