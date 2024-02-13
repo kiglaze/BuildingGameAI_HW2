@@ -50,14 +50,13 @@ int main()
 
             const std::vector<Sprite*> allSprites = myCollection.getSprites();
 
-            float velocity = 0.2;
             sf::Time elapsed = clock.restart();
-            std::cout << elapsed.asMilliseconds() << std::endl;
+            float timeDelta = elapsed.asMilliseconds();
+            std::cout << timeDelta << std::endl;
             for (Sprite* sprite : allSprites) {
                 if (sprite != nullptr) {
-                    float numPixels = elapsed.asMilliseconds() * velocity;
                     // Move sprite according to the direction attribute.
-                    sprite->moveAccordingToDirection(numPixels, maxWindowX, maxWindowY);
+                    sprite->moveAccordingToDirection(timeDelta, maxWindowX, maxWindowY);
                     sprite->setHasStarted(1);
                 }
             }

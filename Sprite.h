@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <vector>
 
 class SpriteCollection; // Forward declaration if SpriteCollection is used
 
@@ -10,6 +11,7 @@ class Sprite {
 public:
     Sprite(const std::string& textureFile, float posX, float posY, int isLeader);
 
+    sf::Vector2f getVelocityVector();
     float getSpriteWidth();
     float getSpriteHeight();
 
@@ -20,6 +22,7 @@ public:
     void moveUp(float diff);
 
     void setScale(float scaleX, float scaleY);
+    void setVelocityVector(float velX, float velY);
     void draw(sf::RenderWindow& window);
     sf::Vector2f getPosition() const;
     void setPosition(float posX, float posY);
@@ -38,7 +41,7 @@ public:
     void markForDeletion();
     int shouldBeDeleted();
 
-    void moveAccordingToDirection(float numPixels, float screenWidth, float screenHeight);
+    void moveAccordingToDirection(float timeDelta, float screenWidth, float screenHeight);
     void rotateIfNeeded(float screenWidth, float screenHeight);
 
 private:
@@ -49,6 +52,7 @@ private:
     int has_reached_corner;
     int is_leader;
     int should_delete;
+    sf::Vector2f velocity;
 };
 
 #endif // SPRITE_H

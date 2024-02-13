@@ -7,6 +7,8 @@ Sprite::Sprite(const std::string& textureFile, float posX, float posY, int isLea
         std::cerr << "Error loading texture" << std::endl;
     }
 
+    velocity = sf::Vector2f(0, 0);
+
     sprite.setTexture(texture);
     // Set the origin of the sprite to its center.
     sprite.setOrigin(getSpriteWidth() / 2.0f, getSpriteHeight() / 2.0f);
@@ -26,6 +28,10 @@ Sprite::Sprite(const std::string& textureFile, float posX, float posY, int isLea
     float scaleX = desiredWidth / textureSize.x;
     float scaleY = desiredHeight / textureSize.y;
     sprite.setScale(scaleX, scaleY);
+}
+
+sf::Vector2f Sprite::getVelocityVector() {
+    return velocity;
 }
 
 float Sprite::getSpriteWidth() {
@@ -63,6 +69,11 @@ void Sprite::moveUp(float diff) {
 
 void Sprite::setScale(float scaleX, float scaleY) {
     sprite.setScale(scaleX, scaleY);
+}
+
+void Sprite::setVelocityVector(float velX, float velY) {
+    velocity.x = velX;
+    velocity.y = velY;
 }
 
 // Draw the sprite to the window.
@@ -125,21 +136,31 @@ int Sprite::shouldBeDeleted() {
 }
 
 // Move the sprite in the direction of the "direction" attribute.
-void Sprite::moveAccordingToDirection(float numPixels, float screenWidth, float screenHeight) {
+void Sprite::moveAccordingToDirection(float timeDelta, float screenWidth, float screenHeight) {
     float velocityRatioShortEdge = (screenHeight/screenWidth);
+    float horizontalVelocity = 0.2;
+    float verticalVelocity = horizontalVelocity * velocityRatioShortEdge;
+    //float numPixels = timeDelta * verticalVelocity;
+    
     if (getDirection() == 0) {
+        setVelocityVector(horizontalVelocity, 0);
         // Right: Move the sprite
-        moveRight(numPixels); // Example: move right by 10 pixels
+        //moveRight(numPixels); // Example: move right by 10 pixels
     } else if (getDirection() == 90) {
+        setVelocityVector(0, verticalVelocity);
         // Down: Move the sprite
-        moveDown(numPixels * velocityRatioShortEdge); // Example: move right by 10 pixels
+        //moveDown(numPixels); // Example: move right by 10 pixels
     } else if (getDirection() == 180) {
+        setVelocityVector(-1 * horizontalVelocity, 0);
         // Left: Move the sprite
-        moveLeft(numPixels); // Example: move right by 10 pixels
+        //moveLeft(numPixels); // Example: move right by 10 pixels
     } else if (getDirection() == 270) {
+        setVelocityVector(0, -1 * verticalVelocity);
         // Up: Move the sprite
-        moveUp(numPixels * velocityRatioShortEdge); // Example: move right by 10 pixels
+        //moveUp(numPixels); // Example: move right by 10 pixels
     }
+
+    sprite.move(timeDelta * getVelocityVector().x, timeDelta * getVelocityVector().y);
 }
 
 // Rotate the sprite 90 degrees counterclockwise once it reaches a corner of the window.
