@@ -1,5 +1,6 @@
 #include "Sprite.h"
 #include <iostream>
+#include <vector>
 
 // Constructor
 Sprite::Sprite(const std::string& textureFile, float posX, float posY, int isLeader) {
@@ -207,4 +208,14 @@ void Sprite::rotateIfNeeded(float screenWidth, float screenHeight) {
     } else {
         has_reached_corner = 0;
     }
+}
+
+void Sprite::arrive(sf::Vector2f targetPosition) {
+    //sf::Vector2f characterPositionVector = getPosition();
+    //float characterPosX = characterPositionVector.x;
+    //float characterPosY = characterPositionVector.y;
+    float targetPosX = targetPosition.x;
+    float targetPosY = targetPosition.y;
+    //float distance = sqrt(pow(targetPosX - characterPosX, 2) + pow(targetPosY - characterPosY, 2));
+    setPosition(targetPosX, targetPosY);
 }

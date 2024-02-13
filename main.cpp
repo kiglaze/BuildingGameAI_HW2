@@ -48,11 +48,11 @@ int main()
                 myCollection.addStartingSprite(textureFilePath, 1);
             }
 
-            const std::vector<Sprite*> allSprites = myCollection.getSprites();
-
             sf::Time elapsed = clock.restart();
             float timeDelta = elapsed.asMilliseconds();
             std::cout << timeDelta << std::endl;
+
+            const std::vector<Sprite*> allSprites = myCollection.getSprites();
             for (Sprite* sprite : allSprites) {
                 if (sprite != nullptr) {
                     // Move sprite according to the direction attribute.
@@ -81,8 +81,12 @@ int main()
         window.display();
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
             sf::Vector2i localPosition = sf::Mouse::getPosition(window);
-            std::cout << "Hello, World!" << std::endl;
-            std::cout << localPosition.x << ", " << localPosition.y << std::endl;
+            const std::vector<Sprite*> allSprites = myCollection.getSprites();
+            for (Sprite* sprite : allSprites) {
+                if ((sprite != nullptr) & (sprite->getIsLeader() == true)) {
+                    sprite->arrive(sf::Vector2f(localPosition.x, localPosition.y));
+                }
+            }
         }
     }
 

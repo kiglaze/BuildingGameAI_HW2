@@ -45,6 +45,7 @@ public:
 
     void moveAccordingToDirection(float timeDelta, float screenWidth, float screenHeight);
     void rotateIfNeeded(float screenWidth, float screenHeight);
+    void arrive(sf::Vector2f targetPosition);
 
 private:
     sf::Texture texture;
