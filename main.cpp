@@ -8,6 +8,7 @@
 // @author Iris Glaze
 int main()
 {
+    sf::Clock clock;
     float maxWindowX = 640.0;
     // Window height is 3/4 of width.
     float maxWindowY = 480.0;
@@ -15,7 +16,7 @@ int main()
 
     SpriteCollection myCollection;
 
-    float numPixels = 1.0;
+    ////float numPixels = 1.0;
     // Frame counter
     int frameCounter = 0;
     std::string textureFilePath = "./sprite_high_res.png";
@@ -49,8 +50,12 @@ int main()
 
             const std::vector<Sprite*> allSprites = myCollection.getSprites();
 
+            float velocity = 0.2;
+            sf::Time elapsed = clock.restart();
+            std::cout << elapsed.asMilliseconds() << std::endl;
             for (Sprite* sprite : allSprites) {
                 if (sprite != nullptr) {
+                    float numPixels = elapsed.asMilliseconds() * velocity;
                     // Move sprite according to the direction attribute.
                     sprite->moveAccordingToDirection(numPixels, maxWindowX, maxWindowY);
                     sprite->setHasStarted(1);
@@ -75,6 +80,11 @@ int main()
 
         myCollection.drawAll(window);
         window.display();
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+            sf::Vector2i localPosition = sf::Mouse::getPosition(window);
+            std::cout << "Hello, World!" << std::endl;
+            std::cout << localPosition.x << ", " << localPosition.y << std::endl;
+        }
     }
 
     return 0;
