@@ -50,7 +50,7 @@ int main()
 
             sf::Time elapsed = clock.restart();
             float timeDelta = elapsed.asMilliseconds();
-            std::cout << timeDelta << std::endl;
+            //std::cout << timeDelta << std::endl;
 
             const std::vector<Sprite*> allSprites = myCollection.getSprites();
             for (Sprite* sprite : allSprites) {

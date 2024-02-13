@@ -1,6 +1,7 @@
 #include "Sprite.h"
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 // Constructor
 Sprite::Sprite(const std::string& textureFile, float posX, float posY, int isLeader) {
@@ -146,28 +147,14 @@ int Sprite::shouldBeDeleted() {
 
 // Move the sprite in the direction of the "direction" attribute.
 void Sprite::moveAccordingToDirection(float timeDelta, float screenWidth, float screenHeight) {
-    float velocityRatioShortEdge = (screenHeight/screenWidth);
+    //float velocityRatioShortEdge = (screenHeight/screenWidth);
     float horizontalVelocity = 0.2;
-    float verticalVelocity = horizontalVelocity * velocityRatioShortEdge;
+    //float verticalVelocity = horizontalVelocity * velocityRatioShortEdge;
     //float numPixels = timeDelta * verticalVelocity;
-    
-    if (getDirection() == 0) {
-        setVelocityVector(horizontalVelocity, 0);
-        // Right: Move the sprite
-        //moveRight(numPixels); // Example: move right by 10 pixels
-    } else if (getDirection() == 90) {
-        setVelocityVector(0, verticalVelocity);
-        // Down: Move the sprite
-        //moveDown(numPixels); // Example: move right by 10 pixels
-    } else if (getDirection() == 180) {
-        setVelocityVector(-1 * horizontalVelocity, 0);
-        // Left: Move the sprite
-        //moveLeft(numPixels); // Example: move right by 10 pixels
-    } else if (getDirection() == 270) {
-        setVelocityVector(0, -1 * verticalVelocity);
-        // Up: Move the sprite
-        //moveUp(numPixels); // Example: move right by 10 pixels
-    }
+
+    float vX = cos(getDirection() * (M_PI / 180.0)) * horizontalVelocity;
+    float vY = sin(getDirection() * (M_PI / 180.0)) * horizontalVelocity;
+    setVelocityVector(vX, vY);
 
     sprite.move(timeDelta * getVelocityVector().x, timeDelta * getVelocityVector().y);
 }
@@ -184,22 +171,18 @@ void Sprite::rotateIfNeeded(float screenWidth, float screenHeight) {
     sf::Vector2f position = getPosition();
 
     if (position.x >= innerXMaxOffsetLoc && position.y <= (getSpriteHeight()/2)) {
-        //rotate(90);
         setDirection(90);
         setRotation(90);
         has_reached_corner = 1;
     } else if (position.x >= innerXMaxOffsetLoc && position.y >= innerYMaxOffsetLoc) {
-        //rotate(90);
         setDirection(180);
         setRotation(180);
         has_reached_corner = 1;
     } else if (position.x <= (getSpriteWidth()/2) && position.y >= innerYMaxOffsetLoc) {
-        //rotate(90);
         setDirection(270);
         setRotation(270);
         has_reached_corner = 1;
     } else if (position.x <= (getSpriteWidth()/2) && position.y <= (getSpriteHeight()/2) && getHasStarted() == 1) {
-        //rotate(90);
         setDirection(0);
         setRotation(0);
         has_reached_corner = 1;
@@ -211,11 +194,13 @@ void Sprite::rotateIfNeeded(float screenWidth, float screenHeight) {
 }
 
 void Sprite::arrive(sf::Vector2f targetPosition) {
-    //sf::Vector2f characterPositionVector = getPosition();
+    sf::Vector2f characterPositionVector = getPosition();
     //float characterPosX = characterPositionVector.x;
     //float characterPosY = characterPositionVector.y;
-    float targetPosX = targetPosition.x;
-    float targetPosY = targetPosition.y;
+    //float targetPosX = targetPosition.x;
+    //float targetPosY = targetPosition.y;
     //float distance = sqrt(pow(targetPosX - characterPosX, 2) + pow(targetPosY - characterPosY, 2));
-    setPosition(targetPosX, targetPosY);
+    sf::Vector2f directionVector = targetPosition - characterPositionVector;
+    float orientation = atan2((directionVector.y), (directionVector.x)) * (180.0 / M_PI);
+    setDirection(orientation);
 }
