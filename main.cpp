@@ -27,7 +27,7 @@ int main()
     myCollection.addStartingSprite(textureFilePath, 1);
 
     Sprite* spriteA = new Sprite(textureFilePath, 125.f, 125.f, 0);
-    Sprite* spriteB = new Sprite(textureFilePath, 225.f, 225.f, 0);
+    Sprite* spriteB = new Sprite(textureFilePath, 275.f, 325.f, 0);
     steeringCollection.addSprite(spriteA);
     steeringCollection.addSprite(spriteB);
 

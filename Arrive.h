@@ -24,11 +24,11 @@ private:
     // Private member variables
     Sprite* target;
     Sprite* character;
-    float maxSpeed = 500;
-    float targetRadius = 10;
-    float slowRadius = 50;
+    float maxSpeed = 0.3;
+    float targetRadius = 35;
+    float slowRadius = 60;
     float maxAcceleration = 0;
-    float timeToTarget = 0.1;
+    float timeToTarget = 2;
 };
 
 #endif // ARRIVE_H

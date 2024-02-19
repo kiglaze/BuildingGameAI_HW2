@@ -16,19 +16,15 @@ Arrive::~Arrive() {
 
 void Arrive::execute(float timeDelta) {
     // Implementation for position-changing behavior
-    std::cout << "asdf" << std::endl;
     SteeringData sd = calculateAcceleration();
     float x = sd.linear.x;
     float y = sd.linear.y;
-    //std::cout << x << std::endl;
-    //std::cout << y << std::endl;
     character->setVelocityVector(x, y);
-    //character->setVelocityVector(-3.5, -3.5);
     //std::cout << character.getVelocityVector().x << std::endl;
     //std::cout << character.getVelocityVector().y << std::endl;
-    //character->moveWithVelocityVector(timeDelta);
-    std::cout << character->getPosition().x << std::endl;
-    std::cout << character->getPosition().y << std::endl;
+    character->moveWithVelocityVector(timeDelta);
+    //std::cout << character->getPosition().x << std::endl;
+    //std::cout << character->getPosition().y << std::endl;
 }
 
 SteeringData Arrive::calculateAcceleration() {
@@ -39,8 +35,9 @@ SteeringData Arrive::calculateAcceleration() {
     
     float targetSpeed;
     if (distance < targetRadius) {
-        targetSpeed = 0;
-    } else if (distance > slowRadius) {
+        return SteeringData(sf::Vector2f(0.0f, 0.0f), 0.0f);
+    }
+    if (distance > slowRadius) {
         targetSpeed = maxSpeed;
     } else {
         // In slow radius
