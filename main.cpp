@@ -4,6 +4,8 @@
 #include <memory>
 #include "Sprite.h"
 #include "SpriteCollection.h"
+#include "Arrive.h"
+#include "SteeringData.h"
 
 // @author Iris Glaze
 int main()
@@ -15,6 +17,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(maxWindowX, maxWindowY), "SFML works!");
 
     SpriteCollection myCollection;
+    SpriteCollection steeringCollection;
 
     ////float numPixels = 1.0;
     // Frame counter
@@ -23,6 +26,10 @@ int main()
 
     myCollection.addStartingSprite(textureFilePath, 1);
 
+    Sprite* spriteA = new Sprite(textureFilePath, 125.f, 125.f, 0);
+    Sprite* spriteB = new Sprite(textureFilePath, 225.f, 225.f, 0);
+    steeringCollection.addSprite(spriteA);
+    steeringCollection.addSprite(spriteB);
 
     while (window.isOpen())
     {
@@ -74,10 +81,14 @@ int main()
                     }
                 }
             }
+
+            Arrive arriveBehavior(*spriteA, *spriteB);
+            arriveBehavior.execute(timeDelta);
             myCollection.deleteMarkedSprites();
         }
 
         myCollection.drawAll(window);
+        steeringCollection.drawAll(window);
         window.display();
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
             sf::Vector2i localPosition = sf::Mouse::getPosition(window);
@@ -89,6 +100,9 @@ int main()
             }
         }
     }
+
+    delete spriteA;
+    delete spriteB;
 
     return 0;
 }

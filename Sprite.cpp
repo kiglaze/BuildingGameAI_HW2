@@ -145,6 +145,10 @@ int Sprite::shouldBeDeleted() {
     return should_delete;
 }
 
+void Sprite::moveWithVelocityVector(float timeDelta) {
+    sprite.move(timeDelta * getVelocityVector().x, timeDelta * getVelocityVector().y);
+}
+
 // Move the sprite in the direction of the "direction" attribute.
 void Sprite::moveAccordingToDirection(float timeDelta, float screenWidth, float screenHeight) {
     //float velocityRatioShortEdge = (screenHeight/screenWidth);
