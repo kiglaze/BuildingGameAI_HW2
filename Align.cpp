@@ -17,6 +17,7 @@ Align::~Align() {
 void Align::execute(float timeDelta) {
     // Implementation for position-changing behavior
     SteeringData sd = calculateAcceleration();
+    //std::cout << sd.angular << std::endl;
 
     std::cout << "aligning..." << std::endl;
 }
@@ -24,29 +25,30 @@ void Align::execute(float timeDelta) {
 SteeringData Align::calculateAcceleration() {
     SteeringData steering;
     float rotation = target->getDirection() - character->getDirection();
+    std::cout << character->getDirection() << std::endl;
     // Map the result to the (-pi, pi) interval.
     rotation = rotation * (M_PI / 180.0);
     float rotationSize = abs(rotation);
-
+    //std::cout << rotationSize << std::endl;
     if (rotationSize < targetRadius) {
-        return 0;
-    }
-
-    float targetRotation;
-    if (rotationSize > slowRadius) {
-        targetRotation = maxRotation;
+        steering.angular = 0;
     } else {
-        targetRotation = maxRotation * rotationSize / slowRadius;
-    }
-    targetRotation *= rotation / rotationSize;
+        float targetRotation;
+        if (rotationSize > slowRadius) {
+            targetRotation = maxRotation;
+        } else {
+            targetRotation = maxRotation * rotationSize / slowRadius;
+        }
+        targetRotation *= rotation / rotationSize;
 
-    steering.angular = targetRotation - character.getRotation();
-    steering.angular /= timeToTarget;
+        steering.angular = targetRotation - character->getRotation();
+        steering.angular /= timeToTarget;
 
-    float angularAcceleration = abs(steering.angular);
-    if (angularAcceleration > maxAngularAcceleration) {
-        steering.angular /= angularAcceleration;
-        steering.angular *= maxAngularAcceleration;
+        float angularAcceleration = abs(steering.angular);
+        if (angularAcceleration > maxAngularAcceleration) {
+            steering.angular /= angularAcceleration;
+            steering.angular *= maxAngularAcceleration;
+        }
     }
 
     // todo implement the rest.
