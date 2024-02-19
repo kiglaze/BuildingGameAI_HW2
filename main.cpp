@@ -92,12 +92,7 @@ int main()
         window.display();
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
             sf::Vector2i localPosition = sf::Mouse::getPosition(window);
-            const std::vector<Sprite*> allSprites = myCollection.getSprites();
-            for (Sprite* sprite : allSprites) {
-                if ((sprite != nullptr) & (sprite->getIsLeader() == true)) {
-                    sprite->arrive(sf::Vector2f(localPosition.x, localPosition.y));
-                }
-            }
+            // TODO implement what happens with mouse click.
         }
     }
 
