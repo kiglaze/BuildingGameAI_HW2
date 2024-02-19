@@ -52,6 +52,7 @@ private:
     sf::Texture texture;
     sf::Sprite sprite;
     int direction;
+    float rotation;
     int has_started;
     int has_reached_corner;
     int is_leader;

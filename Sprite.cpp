@@ -10,6 +10,7 @@ Sprite::Sprite(const std::string& textureFile, float posX, float posY, int isLea
     }
 
     velocity = sf::Vector2f(0, 0);
+    rotation = 0.0f;
 
     sprite.setTexture(texture);
     // Set the origin of the sprite to its center.
