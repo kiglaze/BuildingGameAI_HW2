@@ -9,7 +9,7 @@
 class Arrive : public SteeringBehavior {
 public:
     // Constructor with initialization list
-    Arrive(const Sprite& target, const Sprite& character);
+    Arrive(Sprite* target, Sprite* character);
 
     // Override the virtual destructor
     virtual ~Arrive();
@@ -22,8 +22,8 @@ public:
 
 private:
     // Private member variables
-    Sprite target;
-    Sprite character;
+    Sprite* target;
+    Sprite* character;
     float maxSpeed = 500;
     float targetRadius = 10;
     float slowRadius = 50;

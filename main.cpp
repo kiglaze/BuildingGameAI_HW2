@@ -82,7 +82,7 @@ int main()
                 }
             }
 
-            Arrive arriveBehavior(*spriteA, *spriteB);
+            Arrive arriveBehavior(spriteA, spriteB);
             arriveBehavior.execute(timeDelta);
             myCollection.deleteMarkedSprites();
         }
