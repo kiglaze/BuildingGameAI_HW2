@@ -197,15 +197,3 @@ void Sprite::rotateIfNeeded(float screenWidth, float screenHeight) {
         has_reached_corner = 0;
     }
 }
-
-void Sprite::arrive(sf::Vector2f targetPosition) {
-    sf::Vector2f characterPositionVector = getPosition();
-    //float characterPosX = characterPositionVector.x;
-    //float characterPosY = characterPositionVector.y;
-    //float targetPosX = targetPosition.x;
-    //float targetPosY = targetPosition.y;
-    //float distance = sqrt(pow(targetPosX - characterPosX, 2) + pow(targetPosY - characterPosY, 2));
-    sf::Vector2f directionVector = targetPosition - characterPositionVector;
-    float orientation = atan2((directionVector.y), (directionVector.x)) * (180.0 / M_PI);
-    setDirection(orientation);
-}
