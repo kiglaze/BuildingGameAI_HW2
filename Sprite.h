@@ -34,6 +34,8 @@ public:
     void rotate(float x);
     void setRotation(float x);
     float getRotation();
+    float getAngularVelocity();
+    void setAngularVelocity(float w);
 
     int getHasStarted();
     void setHasStarted(int hasStartedVal);
@@ -51,7 +53,7 @@ private:
     sf::Texture texture;
     sf::Sprite sprite;
     int direction;
-    float rotation;
+    float angular_velocity;
     int has_started;
     int has_reached_corner;
     int is_leader;

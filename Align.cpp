@@ -17,19 +17,34 @@ Align::~Align() {
 void Align::execute(float timeDelta) {
     // Implementation for position-changing behavior
     SteeringData sd = calculateAcceleration();
-    //std::cout << sd.angular << std::endl;
-
-    std::cout << "aligning..." << std::endl;
+    //sd.angular = .3;
+    std::cout << "sd.angular" << std::endl;
+    std::cout << sd.angular << std::endl;
+    character->setAngularVelocity(sd.angular);
+    float angleToRotate = timeDelta * character->getAngularVelocity();
+    float newAngleDirection = character->getDirection() + angleToRotate;
+    character->setDirection(newAngleDirection);
+    character->setRotation(newAngleDirection);
 }
 
 SteeringData Align::calculateAcceleration() {
     SteeringData steering;
+    sf::Vector2f direction = target->getPosition() - character->getPosition();
+    float directionLength = sqrt(pow(direction.x, 2) + pow(direction.y, 2));
+    if (directionLength > 0) {
+
+    }
+
+    float targetOrientation = atan2(direction.x, direction.y) * (180.0 / M_PI);
+    target->setDirection(targetOrientation);
+    target->setRotation(targetOrientation);
+
     float rotation = target->getDirection() - character->getDirection();
     std::cout << character->getDirection() << std::endl;
     // Map the result to the (-pi, pi) interval.
     rotation = rotation * (M_PI / 180.0);
+
     float rotationSize = abs(rotation);
-    //std::cout << rotationSize << std::endl;
     if (rotationSize < targetRadius) {
         steering.angular = 0;
     } else {
@@ -39,9 +54,10 @@ SteeringData Align::calculateAcceleration() {
         } else {
             targetRotation = maxRotation * rotationSize / slowRadius;
         }
+
         targetRotation *= rotation / rotationSize;
 
-        steering.angular = targetRotation - character->getRotation();
+        steering.angular = targetRotation - character->getDirection();
         steering.angular /= timeToTarget;
 
         float angularAcceleration = abs(steering.angular);
@@ -50,12 +66,10 @@ SteeringData Align::calculateAcceleration() {
             steering.angular *= maxAngularAcceleration;
         }
     }
-
     // todo implement the rest.
 
     steering.linear = sf::Vector2f(0.0f, 0.0f);
     //steering.angular = 0; // Assuming no angular acceleration for simplicity
-
     return steering;
 }
 
