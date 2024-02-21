@@ -24,11 +24,11 @@ private:
     // Private member variables
     Sprite* target;
     Sprite* character;
-    float maxAngularAcceleration = .25;
-    float maxRotation = 360;
-    float targetRadius = 5;
+    float maxAngularAcceleration = .15;
+    float maxRotation = 180;
+    float targetRadius = 15;
     float slowRadius = 45;
-    float timeToTarget = 2.5;
+    float timeToTarget = 1.5;
 };
 
 #endif // ALIGN_H

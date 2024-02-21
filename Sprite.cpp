@@ -90,17 +90,17 @@ sf::Vector2f Sprite::getPosition() const {
 }
 
 void Sprite::turnRight() {
-    direction = (direction + 90) % 360;
+    direction = fmod((direction + 90), 360);
     sprite.rotate(90);
 }
 
 // Get direction. 0 = right. 90 = down. 180 = left. 270 = up.
-int Sprite::getDirection() {
+float Sprite::getDirection() {
     return direction;
 }
 
 // Set direction of the sprite. 0 = right. 90 = down. 180 = left. 270 = up.
-void Sprite::setDirection(int newDirection) {
+void Sprite::setDirection(float newDirection) {
     direction = newDirection;
 }
 

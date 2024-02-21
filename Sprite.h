@@ -27,9 +27,9 @@ public:
     sf::Vector2f getPosition() const;
     void setPosition(float posX, float posY);
 
-    void setDirection(int newDirection);
+    void setDirection(float newDirection);
     void turnRight();
-    int getDirection();
+    float getDirection();
 
     void rotate(float x);
     void setRotation(float x);
@@ -52,7 +52,7 @@ public:
 private:
     sf::Texture texture;
     sf::Sprite sprite;
-    int direction;
+    float direction;
     float angular_velocity;
     int has_started;
     int has_reached_corner;
