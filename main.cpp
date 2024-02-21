@@ -93,6 +93,10 @@ int main()
                 sf::Vector2i localPosition = sf::Mouse::getPosition(window);
                 // TODO implement what happens with mouse click.
                 //Kinematic kinematicObj(sf::Vector2f(localPosition.x, localPosition.y), 0, sf::Vector2f(0, 0), 0);
+                if (kinematicObj != nullptr) {
+                    delete kinematicObj;
+                    kinematicObj = nullptr;
+                }
                 kinematicObj = new Kinematic(sf::Vector2f(localPosition.x, localPosition.y), 0, sf::Vector2f(0, 0), 0);
             }
             if (kinematicObj != nullptr) {
