@@ -4,7 +4,7 @@
 #include <cmath>
 
 // Constructor
-Sprite::Sprite(const std::string& textureFile, float posX, float posY, int isLeader) {
+Sprite::Sprite(const std::string& textureFile, float posX, float posY, float orient, sf::Vector2f vel, float rot, int isLeader) : Kinematic(sf::Vector2f(posX, posY), orient, vel, rot) {
     if (!texture.loadFromFile(textureFile)) {
         std::cerr << "Error loading texture" << std::endl;
     }
@@ -35,6 +35,11 @@ Sprite::Sprite(const std::string& textureFile, float posX, float posY, int isLea
 
 sf::Vector2f Sprite::getVelocityVector() {
     return velocity;
+}
+
+void Sprite::setVelocityVector(float velX, float velY) {
+    velocity.x = velX;
+    velocity.y = velY;
 }
 
 float Sprite::getSpriteWidth() {
@@ -74,11 +79,6 @@ void Sprite::setScale(float scaleX, float scaleY) {
     sprite.setScale(scaleX, scaleY);
 }
 
-void Sprite::setVelocityVector(float velX, float velY) {
-    velocity.x = velX;
-    velocity.y = velY;
-}
-
 // Draw the sprite to the window.
 void Sprite::draw(sf::RenderWindow& window) {
     window.draw(sprite);
@@ -87,6 +87,11 @@ void Sprite::draw(sf::RenderWindow& window) {
 // Get the position vector of the sprite.
 sf::Vector2f Sprite::getPosition() const {
     return sprite.getPosition();
+}
+
+// Set the position. 0, 0 is top left of the window. down is positive y. right is positive x.
+void Sprite::setPosition(float posX, float posY) {
+    sprite.setPosition(posX, posY);
 }
 
 void Sprite::turnRight() {
@@ -102,11 +107,6 @@ float Sprite::getDirection() {
 // Set direction of the sprite. 0 = right. 90 = down. 180 = left. 270 = up.
 void Sprite::setDirection(float newDirection) {
     direction = newDirection;
-}
-
-// Set the position. 0, 0 is top left of the window. down is positive y. right is positive x.
-void Sprite::setPosition(float posX, float posY) {
-    sprite.setPosition(posX, posY);
 }
 
 // Rotate the sprite clockwise by the specified number of degrees.

@@ -5,11 +5,12 @@
 #include <SFML/Graphics.hpp>
 #include "SteeringBehavior.h"
 #include "Sprite.h" // Make sure this exists and is correctly implemented
+#include "Kinematic.h"
 
 class Arrive : public SteeringBehavior {
 public:
     // Constructor with initialization list
-    Arrive(Sprite* target, Sprite* character);
+    Arrive(Kinematic* target, Sprite* character);
 
     // Override the virtual destructor
     virtual ~Arrive();
@@ -22,7 +23,7 @@ public:
 
 private:
     // Private member variables
-    Sprite* target;
+    Kinematic* target;
     Sprite* character;
     float maxSpeed = 0.3;
     float targetRadius = 35;

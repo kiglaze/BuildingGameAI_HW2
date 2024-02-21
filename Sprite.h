@@ -4,12 +4,13 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <vector>
+#include "Kinematic.h"
 
 class SpriteCollection; // Forward declaration if SpriteCollection is used
 
-class Sprite {
+class Sprite : public Kinematic {
 public:
-    Sprite(const std::string& textureFile, float posX, float posY, int isLeader);
+    Sprite(const std::string& textureFile, float posX, float posY, float orient, sf::Vector2f vel, float rot, int isLeader);
 
     sf::Vector2f getVelocityVector();
     float getSpriteWidth();

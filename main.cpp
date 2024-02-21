@@ -7,6 +7,7 @@
 #include "Arrive.h"
 #include "Align.h"
 #include "SteeringData.h"
+#include "Kinematic.h"
 
 // @author Iris Glaze
 int main()
@@ -27,14 +28,15 @@ int main()
 
     myCollection.addStartingSprite(textureFilePath, 1);
 
-    Sprite* spriteA = new Sprite(textureFilePath, 125.f, 125.f, 0); // no
+    Sprite* spriteA = new Sprite(textureFilePath, 125.f, 125.f, 0, sf::Vector2f(0, 0), 0, 0); // no
     //Sprite* spriteA = new Sprite(textureFilePath, 475.f, 125.f, 0); // yes
     //Sprite* spriteA = new Sprite(textureFilePath, 475.f, 375.f, 0); // yes
     //Sprite* spriteA = new Sprite(textureFilePath, 75.f, 375.f, 0); // no
     // set orientation of a Sprite
-    Sprite* spriteB = new Sprite(textureFilePath, 275.f, 325.f, 0);
+    Sprite* spriteB = new Sprite(textureFilePath, 275.f, 325.f, 0, sf::Vector2f(0, 0), 0, 0);
     steeringCollection.addSprite(spriteA);
     steeringCollection.addSprite(spriteB);
+    Kinematic* kinematicObj = nullptr;
 
     while (window.isOpen())
     {
@@ -87,11 +89,21 @@ int main()
                 }
             }
 
-            Arrive arriveBehavior(spriteA, spriteB);
-            arriveBehavior.execute(timeDelta);
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                sf::Vector2i localPosition = sf::Mouse::getPosition(window);
+                // TODO implement what happens with mouse click.
+                //Kinematic kinematicObj(sf::Vector2f(localPosition.x, localPosition.y), 0, sf::Vector2f(0, 0), 0);
+                kinematicObj = new Kinematic(sf::Vector2f(localPosition.x, localPosition.y), 0, sf::Vector2f(0, 0), 0);
+            }
+            if (kinematicObj != nullptr) {
+                Arrive arriveBehavior(kinematicObj, spriteB);
+                //Arrive arriveBehavior(spriteA, spriteB);
+                arriveBehavior.execute(timeDelta);
 
-            Align alignBehavior(spriteA, spriteB);
-            alignBehavior.execute(timeDelta);
+                Align alignBehavior(kinematicObj, spriteB);
+                //Align alignBehavior(spriteA, spriteB);
+                alignBehavior.execute(timeDelta);
+            }
 
             myCollection.deleteMarkedSprites();
         }
@@ -99,10 +111,6 @@ int main()
         myCollection.drawAll(window);
         steeringCollection.drawAll(window);
         window.display();
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-            sf::Vector2i localPosition = sf::Mouse::getPosition(window);
-            // TODO implement what happens with mouse click.
-        }
     }
 
     delete spriteA;

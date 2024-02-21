@@ -9,7 +9,7 @@
 class Align : public SteeringBehavior {
 public:
     // Constructor with initialization list
-    Align(Sprite* target, Sprite* character);
+    Align(Kinematic* target, Sprite* character);
 
     // Override the virtual destructor
     virtual ~Align();
@@ -22,7 +22,7 @@ public:
 
 private:
     // Private member variables
-    Sprite* target;
+    Kinematic* target;
     Sprite* character;
     float maxAngularAcceleration = .2;
     float maxRotation = 360;

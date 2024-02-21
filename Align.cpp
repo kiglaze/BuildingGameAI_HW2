@@ -6,7 +6,7 @@
 #include "Align.h"
 #include <iostream>
 
-Align::Align(Sprite* targetInput, Sprite* characterInput)
+Align::Align(Kinematic* targetInput, Sprite* characterInput)
 : target(targetInput), character(characterInput) { // Use initializer list here
 }
 
@@ -55,7 +55,6 @@ SteeringData Align::calculateAcceleration() {
     //std::cout << direction.y << std::endl;
     float targetOrientation = atan2(direction.y, direction.x) * (180.0 / M_PI);
     target->setDirection(targetOrientation);
-    target->setRotation(targetOrientation);
 
     SteeringData steering;
     float rotation = mapToRange(target->getDirection() - character->getDirection());

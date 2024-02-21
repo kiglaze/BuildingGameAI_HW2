@@ -6,7 +6,7 @@
 #include "Arrive.h"
 #include <iostream>
 
-Arrive::Arrive(Sprite* targetInput, Sprite* characterInput)
+Arrive::Arrive(Kinematic* targetInput, Sprite* characterInput)
 : target(targetInput), character(characterInput) { // Use initializer list here
 }
 

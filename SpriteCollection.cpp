@@ -31,7 +31,7 @@ std::size_t SpriteCollection::getSpriteCount() {
 
 // Add a new sprite to the starting position.
 void SpriteCollection::addStartingSprite(std::string textureFilePath, int isLeader) {
-    Sprite* spriteA = new Sprite(textureFilePath, 25.f, 25.f, isLeader);
+    Sprite* spriteA = new Sprite(textureFilePath, 25.f, 25.f, 0, sf::Vector2f(0, 0), 0, isLeader);
     addSprite(spriteA);
 }
 
