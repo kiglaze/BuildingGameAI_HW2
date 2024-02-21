@@ -8,6 +8,7 @@
 #include "Align.h"
 #include "SteeringData.h"
 #include "Kinematic.h"
+#include "Wander.h"
 
 // @author Iris Glaze
 int main()
@@ -98,6 +99,7 @@ int main()
                     kinematicObj = nullptr;
                 }
                 kinematicObj = new Kinematic(sf::Vector2f(localPosition.x, localPosition.y), 0, sf::Vector2f(0, 0), 0);
+                Wander wanderObj(kinematicObj, spriteB);
             }
             if (kinematicObj != nullptr) {
                 Arrive arriveBehavior(kinematicObj, spriteB);
