@@ -23,8 +23,6 @@ void Arrive::execute(float timeDelta) {
     //std::cout << character.getVelocityVector().x << std::endl;
     //std::cout << character.getVelocityVector().y << std::endl;
     character->moveWithVelocityVector(timeDelta);
-    //std::cout << character->getPosition().x << std::endl;
-    //std::cout << character->getPosition().y << std::endl;
 }
 
 SteeringData Arrive::calculateAcceleration() {
