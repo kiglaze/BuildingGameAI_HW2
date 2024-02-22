@@ -33,10 +33,10 @@ public:
 
 private:
     float wanderOffset = 20;
-    float wanderRadius = 35;
-    float wanderRate = 50;
+    float wanderRadius = 105;
+    float wanderRate = 70;
     float wanderOrientation = 0.0f; // This could start at any value
-    float maxAcceleration = 0.1f;
+    float maxAcceleration = 0.05f;
 };
 
 #endif // WANDER_H

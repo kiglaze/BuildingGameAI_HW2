@@ -58,7 +58,7 @@ sf::Vector2f Wander::convertAngleToVector(float angleInDegrees) {
 SteeringData Wander::calculateAcceleration() {
     // TODO Implement
     SteeringData result;
-    wanderOrientation += generateRandomBinomial() + wanderRate;
+    wanderOrientation += generateRandomBinomial() * wanderRate;
     float targetOrientation = wanderOrientation + character->getDirection();
     target->setDirection(targetOrientation);
     sf::Vector2f targetPosition = character->getPosition() + wanderOffset * convertAngleToVector(character->getDirection());
