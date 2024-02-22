@@ -19,6 +19,12 @@ int main()
     float maxWindowY = 480.0;
     sf::RenderWindow window(sf::VideoMode(maxWindowX, maxWindowY), "SFML works!");
 
+    // Variables to store the mouse positions
+    sf::Vector2i previousMousePosition = sf::Mouse::getPosition(window);
+    sf::Vector2i currentMousePosition;
+    // Variables to store the velocity
+    sf::Vector2f mouseVelocity(0.f, 0.f);
+
     SpriteCollection myCollection;
     SpriteCollection steeringCollection;
 
@@ -67,6 +73,28 @@ int main()
             sf::Time elapsed = clock.restart();
             float timeDelta = elapsed.asMilliseconds();
             //std::cout << timeDelta << std::endl;
+
+            // Update current mouse position
+            currentMousePosition = sf::Mouse::getPosition(window);
+
+            // Calculate displacement
+            sf::Vector2i displacement = currentMousePosition - previousMousePosition;
+
+            // Calculate velocity: velocity = displacement / time
+            // Note: This gives you velocity in pixels/second if deltaTime is in seconds
+            if (timeDelta > 0) { // Check to prevent division by zero
+                mouseVelocity.x = static_cast<float>(displacement.x) / timeDelta;
+                mouseVelocity.y = static_cast<float>(displacement.y) / timeDelta;
+                std::cout << "--------------" << std::endl;
+                std::cout << "mouseVelocity.x" << std::endl;
+                std::cout << mouseVelocity.x << std::endl;
+                std::cout << "mouseVelocity.y" << std::endl;
+                std::cout << mouseVelocity.y << std::endl;
+                std::cout << "--------------" << std::endl;
+            }
+
+            // Update previous mouse position
+            previousMousePosition = currentMousePosition;
 
             const std::vector<Sprite*> allSprites = myCollection.getSprites();
             for (Sprite* sprite : allSprites) {
