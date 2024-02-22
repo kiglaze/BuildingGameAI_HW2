@@ -28,6 +28,8 @@ public:
     sf::Vector2f getPosition() const;
     void setPosition(float posX, float posY);
 
+
+    float mapToRange(float rotation);
     void setDirection(float newDirection);
     void turnRight();
     float getDirection();

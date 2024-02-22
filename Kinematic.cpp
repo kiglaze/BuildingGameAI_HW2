@@ -22,9 +22,20 @@ float Kinematic::getDirection() const {
     return direction;
 }
 
+float Kinematic::mapToRange(float rotation) {
+    // Normalize the rotation to the range [-180, 180]
+    rotation = fmod(rotation, 360.0f);
+    if (rotation > 180.0f) {
+        rotation -= 360.0f;
+    } else if (rotation < -180.0f) {
+        rotation += 360.0f;
+    }
+    return rotation;
+}
+
 // Set direction of the sprite. 0 = right. 90 = down. 180 = left. 270 = up.
 void Kinematic::setDirection(float newDirection) {
-    direction = newDirection;
+    direction = mapToRange(newDirection);
 }
 
 sf::Vector2f Kinematic::getVelocityVector() const {

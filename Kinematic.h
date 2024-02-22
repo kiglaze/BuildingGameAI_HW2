@@ -13,6 +13,7 @@ public:
     sf::Vector2f getPosition() const;
     void setPosition(float posX, float posY);
     float getDirection() const;
+    float mapToRange(float rotation);
     void setDirection(float newDirection);
     sf::Vector2f getVelocityVector() const;
     void setVelocityVector(float velX, float velY);

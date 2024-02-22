@@ -104,9 +104,20 @@ float Sprite::getDirection() {
     return direction;
 }
 
+float Sprite::mapToRange(float rotation) {
+    // Normalize the rotation to the range [-180, 180]
+    rotation = fmod(rotation, 360.0f);
+    if (rotation > 180.0f) {
+        rotation -= 360.0f;
+    } else if (rotation < -180.0f) {
+        rotation += 360.0f;
+    }
+    return rotation;
+}
+
 // Set direction of the sprite. 0 = right. 90 = down. 180 = left. 270 = up.
 void Sprite::setDirection(float newDirection) {
-    direction = newDirection;
+    direction = mapToRange(newDirection);
 }
 
 // Rotate the sprite clockwise by the specified number of degrees.

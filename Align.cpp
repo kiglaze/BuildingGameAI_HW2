@@ -26,6 +26,13 @@ float mapToRange(float rotation) {
 }
 
 void Align::execute(float timeDelta) {
+    std::cout << "MAPPING TO RANGE: " << std::endl;
+    std::cout << mapToRange(45.5649) << std::endl;
+    std::cout << mapToRange(-279.975) << std::endl;
+    std::cout << mapToRange(-279.975) << std::endl;
+    std::cout << mapToRange(-500.975) << std::endl;
+    std::cout << mapToRange(500.33) << std::endl;
+    std::cout << mapToRange(0) << std::endl;
     // Implementation for position-changing behavior
     SteeringData sd = calculateAcceleration();
     //sd.angular = .3;
