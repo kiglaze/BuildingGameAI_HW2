@@ -26,8 +26,8 @@ private:
     Kinematic* target;
     Sprite* character;
     float maxSpeed = 0.9;
-    float targetRadius = 35;
-    float slowRadius = 60;
+    float targetRadius = 25;
+    float slowRadius = 120;
     float maxAcceleration = 4;
     float timeToTarget = 2;
 };
