@@ -29,7 +29,7 @@ SteeringData Arrive::calculateAcceleration() {
     SteeringData steering;
 
     sf::Vector2f direction = target->getPosition() - character->getPosition();
-    float distance = sqrt(pow(direction.x, 2) + pow(direction.y, 2));
+    float distance = getLengthOfVector(direction);
     
     float targetSpeed;
     if (distance < targetRadius) {
@@ -43,15 +43,23 @@ SteeringData Arrive::calculateAcceleration() {
     }
 
     // Desired velocity
-    sf::Vector2f desiredVelocity = direction;
-    if (distance != 0) { // Normalize direction if not zero
-        desiredVelocity /= distance;
-    }
-    desiredVelocity *= targetSpeed;
+    sf::Vector2f targetVelocity = direction;
+    normalizeVector(targetVelocity);
+    targetVelocity *= targetSpeed;
 
-    sf::Vector2f currentVelocity = character->getVelocityVector();
+
+
     // Assuming we have access to the current velocity of the object, which is not shown here
-    steering.linear = desiredVelocity - currentVelocity;
+    steering.linear = targetVelocity - character->getVelocityVector();
+    steering.linear /= timeToTarget;
+
+    if (getLengthOfVector(steering.linear) > maxAcceleration) {
+        normalizeVector(steering.linear);
+        steering.linear *= maxAcceleration;
+    }
+
+
+
     steering.angular = 0; // Assuming no angular acceleration for simplicity
 
     return steering;

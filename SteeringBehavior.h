@@ -12,6 +12,10 @@ public:
     // Virtual destructor to ensure derived class destructors are called
     virtual ~SteeringBehavior() {}
 
+    float getLengthOfVector(sf::Vector2f vectorInput);
+
+    void normalizeVector(sf::Vector2f& vectorInput);
+
     // Pure virtual function for executing the behavior
     virtual void execute(float timeDelta) = 0;
 
