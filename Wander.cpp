@@ -20,9 +20,18 @@ Wander::~Wander() {
 }
 
 void Wander::execute(float timeDelta) {
-    // TODO implement
     SteeringData sd = calculateAcceleration();
-    std::cout << "----------" << std::endl;
+
+    float x = sd.linear.x;
+    float y = sd.linear.y;
+    character->setVelocityVector(x, y);
+    character->moveWithVelocityVector(timeDelta);
+
+    character->setAngularVelocity(sd.angular);
+    float angleToRotate = timeDelta * character->getAngularVelocity();
+    float newAngleDirection = character->getDirection() + angleToRotate;
+    character->setDirection(newAngleDirection);
+    character->setRotation(newAngleDirection);
 }
 
 float Wander::getRandNumZeroOne() {
