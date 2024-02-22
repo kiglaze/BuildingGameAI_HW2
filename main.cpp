@@ -99,16 +99,16 @@ int main()
                     kinematicObj = nullptr;
                 }
                 kinematicObj = new Kinematic(sf::Vector2f(localPosition.x, localPosition.y), 0, sf::Vector2f(0, 0), 0);
-                Wander wanderObj(kinematicObj, spriteB);
             }
             if (kinematicObj != nullptr) {
-                Arrive arriveBehavior(kinematicObj, spriteB);
-                //Arrive arriveBehavior(spriteA, spriteB);
-                arriveBehavior.execute(timeDelta);
+                //Arrive arriveBehavior(kinematicObj, spriteB);
+                //arriveBehavior.execute(timeDelta);
 
-                Align alignBehavior(kinematicObj, spriteB);
-                //Align alignBehavior(spriteA, spriteB);
-                alignBehavior.execute(timeDelta);
+                //Align alignBehavior(kinematicObj, spriteB);
+                //alignBehavior.execute(timeDelta);
+
+                Wander wanderObj(kinematicObj, spriteB);
+                wanderObj.execute(timeDelta);
             }
 
             myCollection.deleteMarkedSprites();

@@ -6,15 +6,17 @@
 #include "Align.h"
 #include <iostream>
 
-Align::Align(Kinematic* targetInput, Sprite* characterInput)
-: target(targetInput), character(characterInput) { // Use initializer list here
+Align::Align(Kinematic* targetInput, Sprite* characterInput) {
+    target = targetInput;
+    character = characterInput;
+    std::cout << "test" << std::endl;
 }
 
 Align::~Align() {
 
 }
 
-float mapToRange(float rotation) {
+float Align::mapToRange(float rotation) {
     // Normalize the rotation to the range [-180, 180]
     rotation = fmod(rotation, 360.0f);
     if (rotation > 180.0f) {

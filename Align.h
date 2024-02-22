@@ -14,16 +14,20 @@ public:
     // Override the virtual destructor
     virtual ~Align();
 
+    float mapToRange(float rotation);
+
     // Override execute() method from SteeringBehavior
     void execute(float timeDelta) override;
 
     // Override calculateAcceleration() method from SteeringBehavior
     SteeringData calculateAcceleration() override;
 
-private:
-    // Private member variables
+protected:
     Kinematic* target;
     Sprite* character;
+
+private:
+    // Private member variables
     float maxAngularAcceleration = .2;
     float maxRotation = 360;
     float targetRadius = 15;
