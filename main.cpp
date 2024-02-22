@@ -37,7 +37,8 @@ int main()
     Sprite* spriteB = new Sprite(textureFilePath, 275.f, 325.f, 0, sf::Vector2f(0, 0), 0, 0);
     steeringCollection.addSprite(spriteA);
     steeringCollection.addSprite(spriteB);
-    Kinematic* kinematicObj = nullptr;
+    Kinematic* kinemMouseClickObj = nullptr;
+    Kinematic* wanderTargetObj = nullptr;
 
     while (window.isOpen())
     {
@@ -92,22 +93,43 @@ int main()
 
             if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                 sf::Vector2i localPosition = sf::Mouse::getPosition(window);
-                // TODO implement what happens with mouse click.
-                //Kinematic kinematicObj(sf::Vector2f(localPosition.x, localPosition.y), 0, sf::Vector2f(0, 0), 0);
-                if (kinematicObj != nullptr) {
-                    delete kinematicObj;
-                    kinematicObj = nullptr;
+                // If left mouse click, arrive and align to that spot.
+                if (wanderTargetObj != nullptr) {
+                    delete wanderTargetObj;
+                    wanderTargetObj = nullptr;
                 }
-                kinematicObj = new Kinematic(sf::Vector2f(localPosition.x, localPosition.y), 0, sf::Vector2f(0, 0), 0);
+                if (kinemMouseClickObj != nullptr) {
+                    delete kinemMouseClickObj;
+                    kinemMouseClickObj = nullptr;
+                }
+                kinemMouseClickObj = new Kinematic(sf::Vector2f(localPosition.x, localPosition.y), 0, sf::Vector2f(0, 0), 0);
             }
-            if (kinematicObj != nullptr) {
-                //Arrive arriveBehavior(kinematicObj, spriteB);
-                //arriveBehavior.execute(timeDelta);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+                // If press "w", start wandering.
+                if (wanderTargetObj == nullptr) {
+                    if (kinemMouseClickObj != nullptr) {
+                        delete kinemMouseClickObj;
+                        kinemMouseClickObj = nullptr;
+                    }
+                    wanderTargetObj = new Kinematic(sf::Vector2f(0.0f, 0.0f), 0, sf::Vector2f(0, 0), 0);
+                }
+            } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+                // If press "d", stop wandering.
+                if (wanderTargetObj != nullptr) {
+                    delete wanderTargetObj;
+                    wanderTargetObj = nullptr;
+                }
+            }
+            
+            if (kinemMouseClickObj != nullptr) {
+                Arrive arriveBehavior(kinemMouseClickObj, spriteB);
+                arriveBehavior.execute(timeDelta);
 
-                //Align alignBehavior(kinematicObj, spriteB);
-                //alignBehavior.execute(timeDelta);
-
-                Wander wanderObj(kinematicObj, spriteB);
+                Align alignBehavior(kinemMouseClickObj, spriteB);
+                alignBehavior.execute(timeDelta);
+            }
+            if (wanderTargetObj != nullptr) {
+                Wander wanderObj(wanderTargetObj, spriteB);
                 wanderObj.execute(timeDelta);
             }
 
