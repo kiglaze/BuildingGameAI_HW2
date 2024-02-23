@@ -5,22 +5,25 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <cmath>
+#include "SteeringData.h"
 
 class Kinematic {
 public:
     Kinematic(sf::Vector2f pos, float orient, sf::Vector2f vel, float rot);
+    virtual ~Kinematic() {}
 
-    sf::Vector2f getPosition() const;
-    void setPosition(float posX, float posY);
+    virtual sf::Vector2f getPosition() const;
+    virtual void setPosition(float posX, float posY);
     float getDirection() const;
     float mapToRange(float rotation);
     void setDirection(float newDirection);
     sf::Vector2f getVelocityVector() const;
-    void setVelocityVector(float velX, float velY);
+    void setVelocityVector(float valX, float valY);
     float getAngularVelocity() const;
     void setAngularVelocity(float w);
     void update(sf::Vector2f positionVal, float orientationVal, sf::Vector2f velocityVal, float rotationVal);
-private:
+    void update(SteeringData sd, float deltaTime);
+protected:
     sf::Vector2f position;
     float direction; // orientation
     sf::Vector2f velocity;

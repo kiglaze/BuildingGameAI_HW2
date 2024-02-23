@@ -8,8 +8,7 @@ float SteeringBehavior::getLengthOfVector(sf::Vector2f vectorInput) {
 void SteeringBehavior::normalizeVector(sf::Vector2f& vectorInput) {
     float length = getLengthOfVector(vectorInput);
     if (length > 0) {
-        vectorInput.x /= length;
-        vectorInput.y /= length;
+        vectorInput = sf::Vector2f((vectorInput.x / length), (vectorInput.y / length));
     }
 }
 

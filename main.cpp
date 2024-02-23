@@ -26,7 +26,7 @@ int main()
     // Variables to store the velocity
     sf::Vector2f mouseVelocity(0.f, 0.f);
 
-    SpriteCollection myCollection;
+    //SpriteCollection myCollection;
     SpriteCollection steeringCollection;
 
     ////float numPixels = 1.0;
@@ -34,7 +34,7 @@ int main()
     int frameCounter = 0;
     std::string textureFilePath = "./sprite_high_res.png";
 
-    myCollection.addStartingSprite(textureFilePath, 1);
+    //myCollection.addStartingSprite(textureFilePath, 1);
 
     Sprite* spriteA = new Sprite(textureFilePath, 125.f, 125.f, 0, sf::Vector2f(0, 0), 0, 0); // no
     //Sprite* spriteA = new Sprite(textureFilePath, 475.f, 125.f, 0); // yes
@@ -68,33 +68,32 @@ int main()
         if (frameCounter >= frameCountMark)
         {
             // Adding a new leader sprite as soon as there are zero sprites.
-            if (myCollection.getSpriteCount() == 0) {
-                myCollection.addStartingSprite(textureFilePath, 1);
-            }
+            //if (myCollection.getSpriteCount() == 0) {
+                //myCollection.addStartingSprite(textureFilePath, 1);
+            //}
 
             sf::Time elapsed = clock.restart();
             float timeDelta = elapsed.asMilliseconds();
             //std::cout << timeDelta << std::endl;
-
-            // Update current mouse position
-            currentMousePosition = sf::Mouse::getPosition(window);
-
-            // Calculate displacement
-            sf::Vector2i displacement = currentMousePosition - previousMousePosition;
-
-            // Calculate velocity: velocity = displacement / time
-            // Note: This gives you velocity in pixels/second if deltaTime is in seconds
             if (timeDelta > 0) { // Check to prevent division by zero
+                // Update current mouse position
+                currentMousePosition = sf::Mouse::getPosition(window);
+
+                // Calculate displacement
+                sf::Vector2i displacement = currentMousePosition - previousMousePosition;
+
+                // Calculate velocity: velocity = displacement / time
+                // Note: This gives you velocity in pixels/second if deltaTime is in seconds
                 mouseVelocity.x = static_cast<float>(displacement.x) / timeDelta;
                 mouseVelocity.y = static_cast<float>(displacement.y) / timeDelta;
                 mouseMovementsKinObj->setVelocityVector(mouseVelocity.x, mouseVelocity.y);
+
+                // Update previous mouse position
+                previousMousePosition = currentMousePosition;
+                mouseMovementsKinObj->setPosition(currentMousePosition.x, currentMousePosition.y);
             }
 
-            // Update previous mouse position
-            previousMousePosition = currentMousePosition;
-            mouseMovementsKinObj->setPosition(currentMousePosition.x, currentMousePosition.y);
-
-            const std::vector<Sprite*> allSprites = myCollection.getSprites();
+            //const std::vector<Sprite*> allSprites = myCollection.getSprites();
 /*             for (Sprite* sprite : allSprites) {
                 if (sprite != nullptr) {
                     // Move sprite according to the direction attribute.
@@ -148,26 +147,29 @@ int main()
             }
 
             if (timeDelta > 0) {
-                VelocityMatching mouseFollowArriveBehavior(mouseMovementsKinObj, spriteB);
-                mouseFollowArriveBehavior.execute(timeDelta);
-            }
+                // Velocity matching to the mouse.
+                // VelocityMatching mouseFollowArriveBehavior(mouseMovementsKinObj, spriteB);
+                // mouseFollowArriveBehavior.execute(timeDelta);
             
-            if (kinemMouseClickObj != nullptr) {
-                Arrive arriveBehavior(kinemMouseClickObj, spriteB);
-                arriveBehavior.execute(timeDelta);
+                if (kinemMouseClickObj != nullptr) {
+                    Arrive arriveBehavior(spriteA, spriteB);
+                    arriveBehavior.execute(timeDelta);
+                    // std::cout << spriteB->getVelocityVector().x << ", " << spriteB->getVelocityVector().y << std::endl;
 
-                Align alignBehavior(kinemMouseClickObj, spriteB);
-                alignBehavior.execute(timeDelta);
-            }
-            if (wanderTargetObj != nullptr) {
-                Wander wanderObj(wanderTargetObj, spriteB);
-                wanderObj.execute(timeDelta);
+                    // Align alignBehavior(kinemMouseClickObj, spriteB);
+                    // alignBehavior.execute(timeDelta);
+                }
+                if (wanderTargetObj != nullptr) {
+                    // Wander wanderObj(wanderTargetObj, spriteB);
+                    // wanderObj.execute(timeDelta);
+                }
             }
 
-            myCollection.deleteMarkedSprites();
+            //myCollection.deleteMarkedSprites();
+            steeringCollection.deleteMarkedSprites();
         }
 
-        myCollection.drawAll(window);
+        //myCollection.drawAll(window);
         steeringCollection.drawAll(window);
         window.display();
     }

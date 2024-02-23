@@ -25,11 +25,11 @@ private:
     // Private member variables
     Kinematic* target;
     Sprite* character;
-    float maxSpeed = 0.9;
+    float maxSpeed = 0.1;
     float targetRadius = 25;
-    float slowRadius = 120;
-    float maxAcceleration = 4;
-    float timeToTarget = 2;
+    float slowRadius = 60;
+    float maxAcceleration = 0.002;
+    float timeToTarget = 1.0;
 };
 
 #endif // ARRIVE_H

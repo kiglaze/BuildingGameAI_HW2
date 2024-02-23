@@ -2,6 +2,7 @@
 #include <vector>
 #include <cmath>
 #include "Kinematic.h"
+#include "SteeringData.h"
 
 // Constructor with member initializer list
 Kinematic::Kinematic(sf::Vector2f pos, float orient, sf::Vector2f vel, float rot)
@@ -42,9 +43,8 @@ sf::Vector2f Kinematic::getVelocityVector() const {
     return velocity;
 }
 
-void Kinematic::setVelocityVector(float velX, float velY) {
-    velocity.x = velX;
-    velocity.y = velY;
+void Kinematic::setVelocityVector(float valX, float valY) {
+    velocity = sf::Vector2f(valX, valY);
 }
 
 float Kinematic::getAngularVelocity() const {
@@ -61,3 +61,22 @@ void Kinematic::update(sf::Vector2f positionVal, float orientationVal, sf::Vecto
     setVelocityVector(velocityVal.x, velocityVal.y);
     setAngularVelocity(rotationVal);
 }
+void Kinematic::update(SteeringData sd, float deltaTime) {
+    sf::Vector2f currentPositionVect = getPosition();
+    sf::Vector2f currentVelocityVect = getVelocityVector();
+    float currentOrientation = getDirection();
+    float currentAngularVelocity = getAngularVelocity();
+
+    // Position and Orientation.
+    sf::Vector2f newPositionVect = currentPositionVect + (currentVelocityVect * deltaTime);
+    setPosition(newPositionVect.x, newPositionVect.y);
+    float newOrientation = currentOrientation + (currentAngularVelocity * deltaTime);
+    setDirection(newOrientation);
+
+    // Velocity and Rotation.
+    sf::Vector2f newVelocityVect = currentVelocityVect + (sd.linear * deltaTime);
+    setVelocityVector(newVelocityVect.x, newVelocityVect.y);
+    float newAngularVelocity = currentAngularVelocity + (sd.angular * deltaTime);
+    setAngularVelocity(newAngularVelocity);
+}
+

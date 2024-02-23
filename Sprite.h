@@ -25,8 +25,8 @@ public:
     void setScale(float scaleX, float scaleY);
     void setVelocityVector(float velX, float velY);
     void draw(sf::RenderWindow& window);
-    sf::Vector2f getPosition() const;
-    void setPosition(float posX, float posY);
+    sf::Vector2f getPosition() const override;
+    void setPosition(float posX, float posY) override;
 
 
     float mapToRange(float rotation);
@@ -55,13 +55,13 @@ public:
 private:
     sf::Texture texture;
     sf::Sprite sprite;
-    float direction;
-    float angular_velocity;
+    //float direction;
+    //float angular_velocity;
     int has_started;
     int has_reached_corner;
     int is_leader;
     int should_delete;
-    sf::Vector2f velocity;
+    //sf::Vector2f velocity;
 };
 
 #endif // SPRITE_H

@@ -9,14 +9,14 @@ Sprite::Sprite(const std::string& textureFile, float posX, float posY, float ori
         std::cerr << "Error loading texture" << std::endl;
     }
 
-    velocity = sf::Vector2f(0, 0);
-    angular_velocity = 0.0f;
+    //velocity = sf::Vector2f(0, 0);
+    //angular_velocity = 0.0f;
 
     sprite.setTexture(texture);
     // Set the origin of the sprite to its center.
     sprite.setOrigin(getSpriteWidth() / 2.0f, getSpriteHeight() / 2.0f);
     sprite.setPosition(posX, posY);
-    direction = 0;
+    //direction = 0;
     has_started = 0;
     has_reached_corner = 0;
     is_leader = isLeader;
@@ -86,12 +86,15 @@ void Sprite::draw(sf::RenderWindow& window) {
 
 // Get the position vector of the sprite.
 sf::Vector2f Sprite::getPosition() const {
-    return sprite.getPosition();
+    return Kinematic::getPosition();
 }
 
 // Set the position. 0, 0 is top left of the window. down is positive y. right is positive x.
 void Sprite::setPosition(float posX, float posY) {
-    sprite.setPosition(posX, posY);
+    float dx = posX - getPosition().x;
+    float dy = posY - getPosition().y;
+    Kinematic::setPosition(posX, posY);
+    move(dx, dy);
 }
 
 void Sprite::turnRight() {
