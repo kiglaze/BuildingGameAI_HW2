@@ -60,6 +60,8 @@ SteeringData Wander::calculateAcceleration() {
     SteeringData result;
     wanderOrientation += generateRandomBinomial() * wanderRate;
     float targetOrientation = wanderOrientation + character->getDirection();
+    std::cout << "targetOrientation" << std::endl;
+    std::cout << targetOrientation << std::endl;
     target->setDirection(targetOrientation);
     sf::Vector2f targetPosition = character->getPosition() + wanderOffset * convertAngleToVector(character->getDirection());
     targetPosition += wanderRadius * convertAngleToVector(targetOrientation);

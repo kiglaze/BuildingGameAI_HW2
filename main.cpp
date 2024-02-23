@@ -153,12 +153,15 @@ int main()
                 // mouseFollowArriveBehavior.execute(timeDelta);
             
                 if (kinemMouseClickObj != nullptr) {
-                    Arrive arriveBehavior(spriteA, spriteB);
+                    Arrive arriveBehavior(kinemMouseClickObj, spriteB);
                     arriveBehavior.execute(timeDelta);
                     // std::cout << spriteB->getVelocityVector().x << ", " << spriteB->getVelocityVector().y << std::endl;
 
-                    Face faceBehavior(spriteA, spriteB);
+                    Face faceBehavior(kinemMouseClickObj, spriteB);
                     faceBehavior.execute(timeDelta);
+
+                    //Align alignBehavior(kinemMouseClickObj, spriteB);
+                    //alignBehavior.execute(timeDelta);
                 }
                 if (wanderTargetObj != nullptr) {
                     // Wander wanderObj(wanderTargetObj, spriteB);

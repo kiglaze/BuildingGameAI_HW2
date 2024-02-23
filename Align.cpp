@@ -31,6 +31,8 @@ void Align::execute(float timeDelta) {
 
     if (sd != nullptr) {
         character->update(*sd, timeDelta);
+    } else {
+        character->setAngularVelocity(0.0f);
     }
 }
 

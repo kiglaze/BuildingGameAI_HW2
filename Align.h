@@ -31,11 +31,11 @@ protected:
 
 private:
     // Private member variables
-    float maxAngularAcceleration = .02;
+    float maxAngularAcceleration = .01;
     float maxRotation = 0.1;
     float targetRadius = 15;
     float slowRadius = 45;
-    float timeToTarget = 3;
+    float timeToTarget = 6;
 };
 
 #endif // ALIGN_H
