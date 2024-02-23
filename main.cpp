@@ -6,6 +6,7 @@
 #include "SpriteCollection.h"
 #include "Arrive.h"
 #include "Align.h"
+#include "Face.h"
 #include "VelocityMatching.h"
 #include "SteeringData.h"
 #include "Kinematic.h"
@@ -36,7 +37,7 @@ int main()
 
     //myCollection.addStartingSprite(textureFilePath, 1);
 
-    Sprite* spriteA = new Sprite(textureFilePath, 125.f, 125.f, -120.0, sf::Vector2f(0, 0), 0, 0); // no
+    Sprite* spriteA = new Sprite(textureFilePath, 125.f, 125.f, -55.0, sf::Vector2f(0, 0), 0, 0); // no
     //Sprite* spriteA = new Sprite(textureFilePath, 475.f, 125.f, 0); // yes
     //Sprite* spriteA = new Sprite(textureFilePath, 475.f, 375.f, 0); // yes
     //Sprite* spriteA = new Sprite(textureFilePath, 75.f, 375.f, 0); // no
@@ -156,8 +157,8 @@ int main()
                     arriveBehavior.execute(timeDelta);
                     // std::cout << spriteB->getVelocityVector().x << ", " << spriteB->getVelocityVector().y << std::endl;
 
-                    Align alignBehavior(spriteA, spriteB);
-                    alignBehavior.execute(timeDelta);
+                    Face faceBehavior(spriteA, spriteB);
+                    faceBehavior.execute(timeDelta);
                 }
                 if (wanderTargetObj != nullptr) {
                     // Wander wanderObj(wanderTargetObj, spriteB);
