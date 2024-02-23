@@ -14,8 +14,8 @@ class VelocityMatching : public SteeringBehavior {
 private:
     Kinematic* target; // Pointer to the target Kinematic object
     Sprite* character; // Pointer to the character Sprite object
-    float timeToTarget = 0.1; // set to 0.1
-    float maxAcceleration = 0.3;
+    float timeToTarget = 2.5; // set to 0.1
+    float maxAcceleration = 0.06;
 
 public:
     // Constructor

@@ -6,6 +6,7 @@
 #include "SpriteCollection.h"
 #include "Arrive.h"
 #include "Align.h"
+#include "VelocityMatching.h"
 #include "SteeringData.h"
 #include "Kinematic.h"
 #include "Wander.h"
@@ -45,6 +46,7 @@ int main()
     steeringCollection.addSprite(spriteB);
     Kinematic* kinemMouseClickObj = nullptr;
     Kinematic* wanderTargetObj = nullptr;
+    Kinematic* mouseMovementsKinObj = new Kinematic(sf::Vector2f(0.0f, 0.0f), 0, sf::Vector2f(0.0f, 0.0f), 0);
 
     while (window.isOpen())
     {
@@ -85,29 +87,25 @@ int main()
             if (timeDelta > 0) { // Check to prevent division by zero
                 mouseVelocity.x = static_cast<float>(displacement.x) / timeDelta;
                 mouseVelocity.y = static_cast<float>(displacement.y) / timeDelta;
-                std::cout << "--------------" << std::endl;
-                std::cout << "mouseVelocity.x" << std::endl;
-                std::cout << mouseVelocity.x << std::endl;
-                std::cout << "mouseVelocity.y" << std::endl;
-                std::cout << mouseVelocity.y << std::endl;
-                std::cout << "--------------" << std::endl;
+                mouseMovementsKinObj->setVelocityVector(mouseVelocity.x, mouseVelocity.y);
             }
 
             // Update previous mouse position
             previousMousePosition = currentMousePosition;
+            mouseMovementsKinObj->setPosition(currentMousePosition.x, currentMousePosition.y);
 
             const std::vector<Sprite*> allSprites = myCollection.getSprites();
-            for (Sprite* sprite : allSprites) {
+/*             for (Sprite* sprite : allSprites) {
                 if (sprite != nullptr) {
                     // Move sprite according to the direction attribute.
                     sprite->moveAccordingToDirection(timeDelta, maxWindowX, maxWindowY);
                     sprite->setHasStarted(1);
                 }
-            }
+            } */
 
             // Reset frame counter
             frameCounter = 0;
-            for (Sprite* sprite : allSprites) {
+/*             for (Sprite* sprite : allSprites) {
                 if (sprite != nullptr) {
                     // Rotate the sprite if it reaches a corner.
                     sprite->rotateIfNeeded(maxWindowX, maxWindowY);
@@ -117,7 +115,7 @@ int main()
                         myCollection.addStartingSprite(textureFilePath, 0);
                     }
                 }
-            }
+            } */
 
             if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                 sf::Vector2i localPosition = sf::Mouse::getPosition(window);
@@ -147,6 +145,11 @@ int main()
                     delete wanderTargetObj;
                     wanderTargetObj = nullptr;
                 }
+            }
+
+            if (timeDelta > 0) {
+                VelocityMatching mouseFollowArriveBehavior(mouseMovementsKinObj, spriteB);
+                mouseFollowArriveBehavior.execute(timeDelta);
             }
             
             if (kinemMouseClickObj != nullptr) {

@@ -16,8 +16,18 @@ VelocityMatching::~VelocityMatching() {
 }
 
 void VelocityMatching::execute(float timeDelta) {
-    // Implementation for position-changing behavior
     SteeringData sd = calculateAcceleration();
+    sf::Vector2f newPosVect = (character->getPosition()) + (character->getVelocityVector() * timeDelta);
+    character->setPosition(newPosVect.x, newPosVect.y);
+
+    character->setDirection(character->getDirection() + (character->getAngularVelocity() * timeDelta));
+
+    sf::Vector2f newVelVect = character->getVelocityVector() + (sd.linear * timeDelta);
+    character->setVelocityVector(newVelVect.x, newVelVect.y);
+
+    float newAngularVelocity = character->getAngularVelocity() + (sd.angular * timeDelta);
+
+    character->setAngularVelocity(newAngularVelocity);
 }
 
 SteeringData VelocityMatching::calculateAcceleration() {

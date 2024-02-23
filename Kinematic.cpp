@@ -56,8 +56,8 @@ void Kinematic::setAngularVelocity(float w) {
 }
 
 void Kinematic::update(sf::Vector2f positionVal, float orientationVal, sf::Vector2f velocityVal, float rotationVal) {
-    position = positionVal;
-    direction = orientationVal;
-    velocity = velocityVal;
-    angular_velocity = rotationVal;
+    setPosition(positionVal.x, positionVal.y);
+    setDirection(orientationVal);
+    setVelocityVector(velocityVal.x, velocityVal.y);
+    setAngularVelocity(rotationVal);
 }
