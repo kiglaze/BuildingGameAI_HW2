@@ -16,13 +16,14 @@ Arrive::~Arrive() {
 
 void Arrive::execute(float timeDelta) {
     // Implementation for position-changing behavior
-    SteeringData sd = calculateAcceleration();
+    SteeringData* sd = calculateAccelerationPointer();
     //sd.linear = sf::Vector2f(-0.014, -0.014);
 
-    character->update(sd, timeDelta);
-    std::cout << "CHARACTER POS AFTER EXECUTE IN ARRIVE: " << std::endl;
-    std::cout << character->getPosition().x << ", " << character->getPosition().y << std::endl;
- 
+    if (sd != nullptr) {
+        character->update(*sd, timeDelta);
+        std::cout << "CHARACTER POS AFTER EXECUTE IN ARRIVE: " << std::endl;
+        std::cout << character->getPosition().x << ", " << character->getPosition().y << std::endl;
+    }
 }
 
 /* void Arrive::execute(float timeDelta) {
@@ -41,14 +42,20 @@ void Arrive::execute(float timeDelta) {
 } */
 
 SteeringData Arrive::calculateAcceleration() {
-    SteeringData result = SteeringData();
+    return SteeringData();
+}
+
+SteeringData* Arrive::calculateAccelerationPointer() {
+    SteeringData* result = new SteeringData();
+    
     sf::Vector2f directionVect = target->getPosition() - character->getPosition();
     float dirVectAng = atan2(directionVect.y, directionVect.x) * (180.0 / M_PI);
     std::cout << "dirVectAng" << std::endl;
     std::cout << dirVectAng << std::endl;
     float distance = getLengthOfVector(directionVect);
     if (distance < targetRadius) {
-        return SteeringData(sf::Vector2f(0.0f, 0.0f), 0.0f);
+        delete result;
+        return nullptr;
     }
 
     float targetSpeed;
@@ -65,15 +72,16 @@ SteeringData Arrive::calculateAcceleration() {
     targetVelocity *= targetSpeed;
 
     // Assuming we have access to the current velocity of the object, which is not shown here
-    result.linear = targetVelocity - character->getVelocityVector();
-    result.linear /= timeToTarget;
+    sf::Vector2f resultLinear = targetVelocity - character->getVelocityVector();
+    resultLinear /= timeToTarget;
 
-    if (getLengthOfVector(result.linear) > maxAcceleration) {
-        normalizeVector(result.linear);
-        result.linear *= maxAcceleration;
+    if (getLengthOfVector(resultLinear) > maxAcceleration) {
+        normalizeVector(resultLinear);
+        resultLinear *= maxAcceleration;
     }
+    result->setLinear(resultLinear);
 
-    result.angular = 0; // Assuming no angular acceleration for simplicity
+    result->setAngular(0); // Assuming no angular acceleration for simplicity
 
     return result;
 }

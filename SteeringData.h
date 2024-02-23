@@ -8,6 +8,12 @@ public:
     sf::Vector2f linear;  // Linear velocity or direction
     float angular;        // Angular velocity or direction
 
+    sf::Vector2f getLinear();
+    float getAngular();
+
+    void setLinear(sf::Vector2f linear);
+    void setAngular(float angular);
+
     // Default constructor
     SteeringData() : linear(0.0f, 0.0f), angular(0.0f) {}
 

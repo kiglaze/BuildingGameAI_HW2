@@ -20,6 +20,7 @@ public:
     virtual void execute(float timeDelta) = 0;
 
     virtual SteeringData calculateAcceleration() = 0;
+    virtual SteeringData* calculateAccelerationPointer() = 0;
 };
 
 #endif // STEERING_BEHAVIOR_H
