@@ -5,8 +5,13 @@
 #include "SteeringData.h"
 
 // Constructor with member initializer list
-Kinematic::Kinematic(sf::Vector2f pos, float orient, sf::Vector2f vel, float rot)
-: position(pos), direction(orient), velocity(vel), angular_velocity(rot) {}
+Kinematic::Kinematic(sf::Vector2f pos, float orient, sf::Vector2f vel, float rot) {
+    setPosition(pos.x, pos.y);
+    setDirection(orient);
+    setVelocityVector(vel.x, vel.y);
+    setAngularVelocity(rot);
+}
+// : position(pos), direction(orient), velocity(vel), angular_velocity(rot) {}
 
 // Get the position vector of the sprite.
 sf::Vector2f Kinematic::getPosition() const {

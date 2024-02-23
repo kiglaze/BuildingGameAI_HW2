@@ -36,7 +36,7 @@ int main()
 
     //myCollection.addStartingSprite(textureFilePath, 1);
 
-    Sprite* spriteA = new Sprite(textureFilePath, 125.f, 125.f, 0, sf::Vector2f(0, 0), 0, 0); // no
+    Sprite* spriteA = new Sprite(textureFilePath, 125.f, 125.f, -120.0, sf::Vector2f(0, 0), 0, 0); // no
     //Sprite* spriteA = new Sprite(textureFilePath, 475.f, 125.f, 0); // yes
     //Sprite* spriteA = new Sprite(textureFilePath, 475.f, 375.f, 0); // yes
     //Sprite* spriteA = new Sprite(textureFilePath, 75.f, 375.f, 0); // no
@@ -156,8 +156,8 @@ int main()
                     arriveBehavior.execute(timeDelta);
                     // std::cout << spriteB->getVelocityVector().x << ", " << spriteB->getVelocityVector().y << std::endl;
 
-                    // Align alignBehavior(kinemMouseClickObj, spriteB);
-                    // alignBehavior.execute(timeDelta);
+                    Align alignBehavior(spriteA, spriteB);
+                    alignBehavior.execute(timeDelta);
                 }
                 if (wanderTargetObj != nullptr) {
                     // Wander wanderObj(wanderTargetObj, spriteB);

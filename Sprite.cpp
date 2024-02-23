@@ -33,13 +33,12 @@ Sprite::Sprite(const std::string& textureFile, float posX, float posY, float ori
     sprite.setScale(scaleX, scaleY);
 }
 
-sf::Vector2f Sprite::getVelocityVector() {
-    return velocity;
+sf::Vector2f Sprite::getVelocityVector() const {
+    return Kinematic::getVelocityVector();
 }
 
 void Sprite::setVelocityVector(float velX, float velY) {
-    velocity.x = velX;
-    velocity.y = velY;
+    Kinematic::setVelocityVector(velX, velY);
 }
 
 float Sprite::getSpriteWidth() {
@@ -103,8 +102,8 @@ void Sprite::turnRight() {
 }
 
 // Get direction. 0 = right. 90 = down. 180 = left. 270 = up.
-float Sprite::getDirection() {
-    return direction;
+float Sprite::getDirection() const {
+    return Kinematic::getDirection();
 }
 
 float Sprite::mapToRange(float rotation) {
@@ -120,7 +119,9 @@ float Sprite::mapToRange(float rotation) {
 
 // Set direction of the sprite. 0 = right. 90 = down. 180 = left. 270 = up.
 void Sprite::setDirection(float newDirection) {
-    direction = mapToRange(newDirection);
+    //direction = mapToRange(newDirection);
+    Kinematic::setDirection(newDirection);
+    setRotation(newDirection);
 }
 
 // Rotate the sprite clockwise by the specified number of degrees.
@@ -136,12 +137,12 @@ float Sprite::getRotation() {
     return sprite.getRotation();
 }
 
-float Sprite::getAngularVelocity() {
-    return angular_velocity;
+float Sprite::getAngularVelocity() const {
+    return Kinematic::getAngularVelocity();
 }
 
 void Sprite::setAngularVelocity(float w) {
-    angular_velocity = w;
+    Kinematic::setAngularVelocity(w);
 }
 
 int Sprite::getHasStarted() {

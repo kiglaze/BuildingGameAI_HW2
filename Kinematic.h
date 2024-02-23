@@ -14,13 +14,13 @@ public:
 
     virtual sf::Vector2f getPosition() const;
     virtual void setPosition(float posX, float posY);
-    float getDirection() const;
+    virtual float getDirection() const;
     float mapToRange(float rotation);
-    void setDirection(float newDirection);
-    sf::Vector2f getVelocityVector() const;
-    void setVelocityVector(float valX, float valY);
-    float getAngularVelocity() const;
-    void setAngularVelocity(float w);
+    virtual void setDirection(float newDirection);
+    virtual sf::Vector2f getVelocityVector() const;
+    virtual void setVelocityVector(float valX, float valY);
+    virtual float getAngularVelocity() const;
+    virtual void setAngularVelocity(float w);
     void update(sf::Vector2f positionVal, float orientationVal, sf::Vector2f velocityVal, float rotationVal);
     void update(SteeringData sd, float deltaTime);
 protected:

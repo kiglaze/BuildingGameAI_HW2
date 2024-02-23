@@ -15,14 +15,10 @@ Arrive::~Arrive() {
 }
 
 void Arrive::execute(float timeDelta) {
-    // Implementation for position-changing behavior
     SteeringData* sd = calculateAccelerationPointer();
-    //sd.linear = sf::Vector2f(-0.014, -0.014);
 
     if (sd != nullptr) {
         character->update(*sd, timeDelta);
-        std::cout << "CHARACTER POS AFTER EXECUTE IN ARRIVE: " << std::endl;
-        std::cout << character->getPosition().x << ", " << character->getPosition().y << std::endl;
     }
 }
 
@@ -49,9 +45,6 @@ SteeringData* Arrive::calculateAccelerationPointer() {
     SteeringData* result = new SteeringData();
     
     sf::Vector2f directionVect = target->getPosition() - character->getPosition();
-    float dirVectAng = atan2(directionVect.y, directionVect.x) * (180.0 / M_PI);
-    std::cout << "dirVectAng" << std::endl;
-    std::cout << dirVectAng << std::endl;
     float distance = getLengthOfVector(directionVect);
     if (distance < targetRadius) {
         delete result;

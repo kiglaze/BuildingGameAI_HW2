@@ -12,7 +12,7 @@ class Sprite : public Kinematic {
 public:
     Sprite(const std::string& textureFile, float posX, float posY, float orient, sf::Vector2f vel, float rot, int isLeader);
 
-    sf::Vector2f getVelocityVector();
+    sf::Vector2f getVelocityVector() const override;
     float getSpriteWidth();
     float getSpriteHeight();
 
@@ -23,22 +23,22 @@ public:
     void moveUp(float diff);
 
     void setScale(float scaleX, float scaleY);
-    void setVelocityVector(float velX, float velY);
+    void setVelocityVector(float velX, float velY) override;
     void draw(sf::RenderWindow& window);
     sf::Vector2f getPosition() const override;
     void setPosition(float posX, float posY) override;
 
 
     float mapToRange(float rotation);
-    void setDirection(float newDirection);
+    void setDirection(float newDirection) override;
     void turnRight();
-    float getDirection();
+    float getDirection() const override;
 
     void rotate(float x);
     void setRotation(float x);
     float getRotation();
-    float getAngularVelocity();
-    void setAngularVelocity(float w);
+    float getAngularVelocity() const override;
+    void setAngularVelocity(float w) override;
 
     int getHasStarted();
     void setHasStarted(int hasStartedVal);
