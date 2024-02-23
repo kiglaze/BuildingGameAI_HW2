@@ -31,6 +31,11 @@ Sprite::Sprite(const std::string& textureFile, float posX, float posY, float ori
     float scaleX = desiredWidth / textureSize.x;
     float scaleY = desiredHeight / textureSize.y;
     sprite.setScale(scaleX, scaleY);
+
+    setPosition(posX, posY);
+    setDirection(orient);
+    setVelocityVector(vel.x, vel.y);
+    setAngularVelocity(rot);
 }
 
 sf::Vector2f Sprite::getVelocityVector() const {
