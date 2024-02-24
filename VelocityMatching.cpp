@@ -16,31 +16,35 @@ VelocityMatching::~VelocityMatching() {
 }
 
 void VelocityMatching::execute(float timeDelta) {
-    SteeringData sd = calculateAcceleration();
-    sf::Vector2f newPosVect = (character->getPosition()) + (character->getVelocityVector() * timeDelta);
-    character->setPosition(newPosVect.x, newPosVect.y);
+    SteeringData* sd = calculateAccelerationPointer();
 
-    character->setDirection(character->getDirection() + (character->getAngularVelocity() * timeDelta));
-
-    sf::Vector2f newVelVect = character->getVelocityVector() + (sd.linear * timeDelta);
-    character->setVelocityVector(newVelVect.x, newVelVect.y);
-
-    float newAngularVelocity = character->getAngularVelocity() + (sd.angular * timeDelta);
-
-    character->setAngularVelocity(newAngularVelocity);
+    if (sd != nullptr) {
+        character->update(*sd, timeDelta);
+    }
 }
 
 SteeringData VelocityMatching::calculateAcceleration() {
-    SteeringData result;
-    result.linear = target->getVelocityVector() - character->getVelocityVector();
-    result.linear /= timeToTarget;
-    float resultLinearLength = getLengthOfVector(result.linear);
+    return SteeringData();
+}
+
+SteeringData* VelocityMatching::calculateAccelerationPointer() {
+    SteeringData* result = new SteeringData();
+    sf::Vector2f resultLinear = target->getVelocityVector() - character->getVelocityVector();
+    std::cout << "target->getVelocityVector()" << std::endl;
+    std::cout << target->getVelocityVector().x << ", " << target->getVelocityVector().y << ", " << std::endl;
+    std::cout << "resultLinear" << std::endl;
+    std::cout << resultLinear.x << ", " << resultLinear.y << std::endl;
+    resultLinear /= timeToTarget;
+
+    float resultLinearLength = getLengthOfVector(resultLinear);
     if (resultLinearLength > maxAcceleration) {
-        normalizeVector(result.linear);
-        result.linear *= maxAcceleration;
+        normalizeVector(resultLinear);
+        resultLinear *= maxAcceleration;
     }
 
-    result.angular = 0;
+    result->setLinear(resultLinear);
+
+    result->setAngular(0);
     return result;
 }
 

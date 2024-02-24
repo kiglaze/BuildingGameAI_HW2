@@ -25,10 +25,12 @@ public:
     ~VelocityMatching();
 
     // Method to execute the velocity matching behavior
-    void execute(float timeDelta);
+    void execute(float timeDelta) override;
 
     // Method to calculate acceleration for velocity matching
-    SteeringData calculateAcceleration();
+    SteeringData calculateAcceleration() override;
+
+    SteeringData* calculateAccelerationPointer() override;
 };
 
 #endif // VELOCITYMATCHING_H

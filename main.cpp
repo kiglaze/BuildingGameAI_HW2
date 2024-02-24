@@ -22,8 +22,9 @@ int main()
     sf::RenderWindow window(sf::VideoMode(maxWindowX, maxWindowY), "SFML works!");
 
     // Variables to store the mouse positions
-    sf::Vector2i previousMousePosition = sf::Mouse::getPosition(window);
-    sf::Vector2i currentMousePosition;
+    sf::Vector2i previousMousePositionInt = sf::Mouse::getPosition(window);
+    sf::Vector2f previousMousePosition = sf::Vector2f(static_cast<float>(previousMousePositionInt.x), static_cast<float>(previousMousePositionInt.y));
+    sf::Vector2f currentMousePosition;
     // Variables to store the velocity
     sf::Vector2f mouseVelocity(0.f, 0.f);
 
@@ -47,7 +48,10 @@ int main()
     steeringCollection.addSprite(spriteB);
     Kinematic* kinemMouseClickObj = nullptr;
     Kinematic* wanderTargetObj = nullptr;
-    Kinematic* mouseMovementsKinObj = new Kinematic(sf::Vector2f(0.0f, 0.0f), 0, sf::Vector2f(0.0f, 0.0f), 0);
+    
+    bool isMatchingMouseVelocity = false;
+    Kinematic* mouseMovementsKinObj = new Kinematic(currentMousePosition, 0.0f, sf::Vector2f(0.0f, 0.0f), 0.0f);
+
 
     while (window.isOpen())
     {
@@ -78,20 +82,30 @@ int main()
             //std::cout << timeDelta << std::endl;
             if (timeDelta > 0) { // Check to prevent division by zero
                 // Update current mouse position
-                currentMousePosition = sf::Mouse::getPosition(window);
+                sf::Vector2i currentMousePosInt = sf::Mouse::getPosition(window);
+                currentMousePosition = sf::Vector2f(static_cast<float>(currentMousePosInt.x), static_cast<float>(currentMousePosInt.y));
 
                 // Calculate displacement
-                sf::Vector2i displacement = currentMousePosition - previousMousePosition;
-
+                sf::Vector2f displacement = currentMousePosition - previousMousePosition;
                 // Calculate velocity: velocity = displacement / time
                 // Note: This gives you velocity in pixels/second if deltaTime is in seconds
-                mouseVelocity.x = static_cast<float>(displacement.x) / timeDelta;
-                mouseVelocity.y = static_cast<float>(displacement.y) / timeDelta;
-                mouseMovementsKinObj->setVelocityVector(mouseVelocity.x, mouseVelocity.y);
+                mouseVelocity.x = displacement.x / timeDelta;
+                mouseVelocity.y = displacement.y / timeDelta;
+                //std::cout << "mouseVelocity" << std::endl;
+                //std::cout << mouseVelocity.x << ", " << mouseVelocity.y << std::endl;
+
+                if (mouseMovementsKinObj != nullptr) {
+                    mouseMovementsKinObj->setPosition(currentMousePosition.x, currentMousePosition.y);
+                    mouseMovementsKinObj->setVelocityVector(mouseVelocity.x, mouseVelocity.y);
+
+                    // sf::Vector2f mouseMvmtsVect = mouseMovementsKinObj->getVelocityVector();
+                    // std::cout << "mouseMvmtsVect" << std::endl;
+                    // std::cout << mouseMvmtsVect.x << ", " << mouseMvmtsVect.y << std::endl;
+                }
 
                 // Update previous mouse position
                 previousMousePosition = currentMousePosition;
-                mouseMovementsKinObj->setPosition(currentMousePosition.x, currentMousePosition.y);
+
             }
 
             //const std::vector<Sprite*> allSprites = myCollection.getSprites();
@@ -117,6 +131,9 @@ int main()
                 }
             } */
 
+
+            // Activated by pressing "V" to have sprite velocity match the mouse.
+            VelocityMatching* mouseFollowArriveBehavior = nullptr;
             if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                 sf::Vector2i localPosition = sf::Mouse::getPosition(window);
                 // If left mouse click, arrive and align to that spot.
@@ -146,12 +163,17 @@ int main()
                     wanderTargetObj = nullptr;
                 }
             }
+            
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::V)) {
+                // Velocity matching to the mouse.
+                isMatchingMouseVelocity = true;
+
+            }
+            if (isMatchingMouseVelocity == true) {
+                mouseFollowArriveBehavior = new VelocityMatching(mouseMovementsKinObj, spriteB);
+            }
 
             if (timeDelta > 0) {
-                // Velocity matching to the mouse.
-                // VelocityMatching mouseFollowArriveBehavior(mouseMovementsKinObj, spriteB);
-                // mouseFollowArriveBehavior.execute(timeDelta);
-            
                 if (kinemMouseClickObj != nullptr) {
                     Arrive arriveBehavior(kinemMouseClickObj, spriteB);
                     arriveBehavior.execute(timeDelta);
@@ -164,8 +186,14 @@ int main()
                     //alignBehavior.execute(timeDelta);
                 }
                 if (wanderTargetObj != nullptr) {
-                    // Wander wanderObj(wanderTargetObj, spriteB);
-                    // wanderObj.execute(timeDelta);
+                    Wander wanderObj(wanderTargetObj, spriteB);
+                    wanderObj.execute(timeDelta);
+                }
+                if (mouseFollowArriveBehavior != nullptr) {
+                    sf::Vector2f mousemovementsVect = mouseMovementsKinObj->getVelocityVector();
+                    std::cout << "mousemovementsVect" << std::endl;
+                    std::cout << mousemovementsVect.x << ", " << mousemovementsVect.y << std::endl;
+                    mouseFollowArriveBehavior->execute(timeDelta);
                 }
             }
 
