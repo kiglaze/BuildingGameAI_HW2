@@ -12,6 +12,7 @@
 #include "Kinematic.h"
 #include "Wander.h"
 #include "CollisionAvoidance.h"
+#include "LookWhereYoureGoing.h"
 
 // @author Iris Glaze
 int main()
@@ -215,11 +216,15 @@ int main()
 
             }
             if (isMatchingMouseVelocity == true) {
-                mouseFollowArriveBehavior = new VelocityMatching(mouseMovementsKinObj, spriteB);
+                mouseFollowArriveBehavior = new VelocityMatching(mouseMovementsKinObj, spriteF);
             }
 
             if (timeDelta > 0) {
-                if (false) {
+                // Flocking implementation here.
+                if (true) {
+                    Kinematic* blankKinematic = new Kinematic(sf::Vector2f(0, 0), 0, sf::Vector2f(0, 0), 0);
+                    LookWhereYoureGoing lookAheadBehavior(blankKinematic, spriteF);
+                    lookAheadBehavior.execute(timeDelta);
                     for (Sprite* sprite : sprites) {
                         if (sprite == spriteF) {
                             continue;
