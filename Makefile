@@ -7,7 +7,7 @@ CXXFLAGS = -Wall -g
 LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 
 # Add all cpp files to your project here
-SOURCES = main.cpp Sprite.cpp SpriteCollection.cpp SteeringBehavior.cpp Arrive.cpp SteeringData.cpp Align.cpp Face.cpp Kinematic.cpp Wander.cpp VelocityMatching.cpp CollisionAvoidance.cpp
+SOURCES = main.cpp Sprite.cpp SpriteCollection.cpp SteeringBehavior.cpp Arrive.cpp SteeringData.cpp Align.cpp Face.cpp LookWhereYoureGoing.cpp Kinematic.cpp Wander.cpp VelocityMatching.cpp CollisionAvoidance.cpp
 
 # Object files
 OBJS = $(SOURCES:.cpp=.o)

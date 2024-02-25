@@ -23,11 +23,11 @@ public:
 
     // Override calculateAcceleration() method from SteeringBehavior
     SteeringData* calculateAccelerationPointer() override;
-
-private:
-    // Private member variables
+protected:
     Kinematic* target;
     Sprite* character;
+private:
+    // Private member variables
     float maxSpeed = 0.1;
     float targetRadius = 50;
     float slowRadius = 60;

@@ -75,6 +75,7 @@ int main()
 
     Kinematic* kinemMouseClickObj = nullptr;
     Kinematic* wanderTargetObj = nullptr;
+    Kinematic* wanderAltTargetObj = nullptr;
     
     bool isMatchingMouseVelocity = false;
     Kinematic* mouseMovementsKinObj = new Kinematic(currentMousePosition, 0.0f, sf::Vector2f(0.0f, 0.0f), 0.0f);
@@ -168,6 +169,10 @@ int main()
                     delete wanderTargetObj;
                     wanderTargetObj = nullptr;
                 }
+                if (wanderAltTargetObj != nullptr) {
+                    delete wanderAltTargetObj;
+                    wanderAltTargetObj = nullptr;
+                }
                 if (kinemMouseClickObj != nullptr) {
                     delete kinemMouseClickObj;
                     kinemMouseClickObj = nullptr;
@@ -183,11 +188,24 @@ int main()
                     }
                     wanderTargetObj = new Kinematic(sf::Vector2f(0.0f, 0.0f), 0, sf::Vector2f(0, 0), 0);
                 }
+            } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+                // If press "q", do 2nd type of wandering.
+                if (wanderAltTargetObj == nullptr) {
+                    if (kinemMouseClickObj != nullptr) {
+                        delete kinemMouseClickObj;
+                        kinemMouseClickObj = nullptr;
+                    }
+                    wanderAltTargetObj = new Kinematic(sf::Vector2f(0.0f, 0.0f), 0, sf::Vector2f(0, 0), 0);
+                }
             } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
                 // If press "d", stop wandering.
                 if (wanderTargetObj != nullptr) {
                     delete wanderTargetObj;
                     wanderTargetObj = nullptr;
+                }
+                if (wanderAltTargetObj != nullptr) {
+                    delete wanderAltTargetObj;
+                    wanderAltTargetObj = nullptr;
                 }
             }
             
@@ -238,6 +256,10 @@ int main()
                 if (wanderTargetObj != nullptr) {
                     Wander wanderObj(wanderTargetObj, spriteB);
                     wanderObj.execute(timeDelta);
+                }
+                if (wanderAltTargetObj != nullptr) {
+                    Wander wanderAltObj(wanderAltTargetObj, spriteB);
+                    wanderAltObj.execute(timeDelta);
                 }
                 if (mouseFollowArriveBehavior != nullptr) {
                     sf::Vector2f mousemovementsVect = mouseMovementsKinObj->getVelocityVector();
