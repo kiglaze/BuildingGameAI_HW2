@@ -49,7 +49,7 @@ SteeringData* CollisionAvoidance::calculateAccelerationPointer() {
         if (timeToCollisionNumerator == 0 && timeToCollisionDenominator == 0) {
             continue;
         }
-        float timeToCollision = fabs(timeToCollisionNumerator / timeToCollisionDenominator);
+        float timeToCollision = (timeToCollisionNumerator / timeToCollisionDenominator);
         
         // Check if there is going to be a collision at all.
         std::cout << "COLLISION?!?!" << std::endl;

@@ -58,6 +58,10 @@ int main()
     sprites.push_back(spriteC);
     sprites.push_back(spriteD);
     sprites.push_back(spriteE);
+    sprites.push_back(spriteF);
+
+    sprites.push_back(spriteA);
+    sprites.push_back(spriteB);
     //sprites.push_back(spriteG);
     for (Sprite* sprite : sprites) {
         kinematics.push_back(sprite);
