@@ -229,14 +229,18 @@ int main()
                     Kinematic* blankKinematic = new Kinematic(sf::Vector2f(0, 0), 0, sf::Vector2f(0, 0), 0);
                     LookWhereYoureGoing lookAheadBehavior(blankKinematic, spriteF);
                     lookAheadBehavior.execute(timeDelta);
+                    // getCOMPosition
+                    sf::Vector2f comPosVect = steeringCollection.getCOMPosition();
+                    sf::Vector2f comVelVect = steeringCollection.getCOMVelocityVector();
+                    Kinematic* collectionCOMKinematic = new Kinematic(comPosVect, 0, comVelVect, 0);
                     for (Sprite* sprite : sprites) {
                         if (sprite == spriteF) {
                             continue;
                         }
-                        Arrive goTowardsSprite(spriteF, sprite);
+                        Arrive goTowardsSprite(collectionCOMKinematic, sprite);
                         goTowardsSprite.execute(timeDelta);
 
-                        Face turnTowardsSprite(spriteF, sprite);
+                        Face turnTowardsSprite(collectionCOMKinematic, sprite);
                         turnTowardsSprite.execute(timeDelta);
                     }
                     // C, D, E, G
@@ -245,6 +249,12 @@ int main()
                     CollisionAvoidance avoidCollisions2(kinematics, spriteD);
                     avoidCollisions2.execute(timeDelta);
                     CollisionAvoidance avoidCollisions3(kinematics, spriteE);
+                    avoidCollisions3.execute(timeDelta);
+                    CollisionAvoidance avoidCollisions4(kinematics, spriteF);
+                    avoidCollisions3.execute(timeDelta);
+                    CollisionAvoidance avoidCollisions5(kinematics, spriteA);
+                    avoidCollisions3.execute(timeDelta);
+                    CollisionAvoidance avoidCollisions6(kinematics, spriteB);
                     avoidCollisions3.execute(timeDelta);
                     /*
                     CollisionAvoidance avoidCollisions4(kinematics, spriteG);

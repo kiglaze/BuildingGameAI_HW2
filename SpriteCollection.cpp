@@ -40,6 +40,31 @@ const std::vector<Sprite*>& SpriteCollection::getSprites() const {
     return sprites;
 }
 
+sf::Vector2f SpriteCollection::getCOMPosition() {
+    std::vector<Sprite*> allSprites = getSprites();
+    int allSpritesCount = getSpriteCount();
+    float sumXPosVal = 0;
+    float sumYPosVal = 0;
+    for (Sprite* sprite : allSprites) {
+        sf::Vector2f spritePosVect = sprite->getPosition();
+        sumXPosVal += spritePosVect.x;
+        sumYPosVal += spritePosVect.y;
+    }
+    return sf::Vector2f((sumXPosVal/allSpritesCount), (sumYPosVal/allSpritesCount));
+}
+sf::Vector2f SpriteCollection::getCOMVelocityVector() {
+    std::vector<Sprite*> allSprites = getSprites();
+    int allSpritesCount = getSpriteCount();
+    float sumXVelVal = 0;
+    float sumYVelVal = 0;
+    for (Sprite* sprite : allSprites) {
+        sf::Vector2f spriteVelVect = sprite->getVelocityVector();
+        sumXVelVal += spriteVelVect.x;
+        sumYVelVal += spriteVelVect.y;
+    }
+    return sf::Vector2f((sumXVelVal/allSpritesCount), (sumYVelVal/allSpritesCount));
+}
+
 // Delete all sprites that are marked for deletion.
 void SpriteCollection::deleteMarkedSprites() {
     const std::vector<Sprite*>& allSprites = getSprites();

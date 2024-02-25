@@ -12,6 +12,9 @@ public:
     std::size_t getSpriteCount();
     void addStartingSprite(std::string textureFilePath, int isLeader);
     const std::vector<Sprite*>& getSprites() const;
+    sf::Vector2f getCOMPosition();
+    float getCOMOrientation();
+    sf::Vector2f getCOMVelocityVector();
     void deleteMarkedSprites();
 
 private:
