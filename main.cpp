@@ -250,8 +250,8 @@ int main()
                     avoidCollisions2.execute(timeDelta);
                     CollisionAvoidance avoidCollisions3(kinematics, spriteE);
                     avoidCollisions3.execute(timeDelta);
-                    CollisionAvoidance avoidCollisions4(kinematics, spriteF);
-                    avoidCollisions3.execute(timeDelta);
+                    //CollisionAvoidance avoidCollisions4(kinematics, spriteF);
+                    //avoidCollisions3.execute(timeDelta);
                     CollisionAvoidance avoidCollisions5(kinematics, spriteA);
                     avoidCollisions3.execute(timeDelta);
                     CollisionAvoidance avoidCollisions6(kinematics, spriteB);
