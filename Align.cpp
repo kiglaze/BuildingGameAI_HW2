@@ -15,6 +15,10 @@ Align::~Align() {
 
 }
 
+void Align::setTargetRadius(float targetRad) {
+    targetRadius = targetRad;
+}
+
 float Align::mapToRange(float rotation) {
     // Normalize the rotation to the range [-180, 180]
     rotation = fmod(rotation, 360.0f);
@@ -48,16 +52,16 @@ SteeringData* Align::calculateAccelerationPointer() {
     float rotationSize = fabs(rotation);
     
     if (rotationSize < targetRadius) {
-        std::cout << "A" << std::endl;
+        //std::cout << "A" << std::endl;
         delete result;
         return nullptr;
     } else {
         float targetRotation;
         if (rotationSize > slowRadius) {
-            std::cout << "B" << std::endl;
+            //std::cout << "B" << std::endl;
             targetRotation = maxRotation;
         } else {
-            std::cout << "C" << std::endl;
+            //std::cout << "C" << std::endl;
             targetRotation = maxRotation * rotationSize / slowRadius;
         }
         targetRotation *= rotation / rotationSize;

@@ -11,6 +11,7 @@
 #include "SteeringData.h"
 #include "Kinematic.h"
 #include "Wander.h"
+#include "CollisionAvoidance.h"
 
 // @author Iris Glaze
 int main()
@@ -44,8 +45,34 @@ int main()
     //Sprite* spriteA = new Sprite(textureFilePath, 75.f, 375.f, 0); // no
     // set orientation of a Sprite
     Sprite* spriteB = new Sprite(textureFilePath, 275.f, 325.f, 0, sf::Vector2f(0, 0), 0, 0);
+    
+    Sprite* spriteC = new Sprite(textureFilePath, 325.f, 225.f, -55.0, sf::Vector2f(0, 0), 0, 0); // no
+    Sprite* spriteD = new Sprite(textureFilePath, 375.f, 265.f, -55.0, sf::Vector2f(0, 0), 0, 0); // no
+    Sprite* spriteE = new Sprite(textureFilePath, 475.f, 195.f, -55.0, sf::Vector2f(0, 0), 0, 0); // no
+    Sprite* spriteF = new Sprite(textureFilePath, 575.f, 95.f, -55.0, sf::Vector2f(0, 0), 0, 0); // no
+    //Sprite* spriteG = new Sprite(textureFilePath, 475.f, 105.f, -55.0, sf::Vector2f(0, 0), 0, 0); // no
+    
+    std::vector<Kinematic*> kinematics;
+    std::vector<Sprite*> sprites;
+    sprites.push_back(spriteC);
+    sprites.push_back(spriteD);
+    sprites.push_back(spriteE);
+    //sprites.push_back(spriteG);
+    for (Sprite* sprite : sprites) {
+        kinematics.push_back(sprite);
+    }
+
+    
+    
     steeringCollection.addSprite(spriteA);
     steeringCollection.addSprite(spriteB);
+
+    steeringCollection.addSprite(spriteC);
+    steeringCollection.addSprite(spriteD);
+    steeringCollection.addSprite(spriteE);
+    steeringCollection.addSprite(spriteF);
+    //steeringCollection.addSprite(spriteG);
+
     Kinematic* kinemMouseClickObj = nullptr;
     Kinematic* wanderTargetObj = nullptr;
     
@@ -174,6 +201,27 @@ int main()
             }
 
             if (timeDelta > 0) {
+                for (Sprite* sprite : sprites) {
+                    if (sprite == spriteF) {
+                        continue;
+                    }
+                    Arrive goTowardsSprite(spriteF, sprite);
+                    goTowardsSprite.execute(timeDelta);
+
+                    Face turnTowardsSprite(spriteF, sprite);
+                    turnTowardsSprite.execute(timeDelta);
+                }
+                // C, D, E, G
+                CollisionAvoidance avoidCollisions(kinematics, spriteC);
+                avoidCollisions.execute(timeDelta);
+                CollisionAvoidance avoidCollisions2(kinematics, spriteD);
+                avoidCollisions2.execute(timeDelta);
+                CollisionAvoidance avoidCollisions3(kinematics, spriteE);
+                avoidCollisions3.execute(timeDelta);
+                /*
+                CollisionAvoidance avoidCollisions4(kinematics, spriteG);
+                avoidCollisions4.execute(timeDelta); */
+
                 if (kinemMouseClickObj != nullptr) {
                     Arrive arriveBehavior(kinemMouseClickObj, spriteB);
                     arriveBehavior.execute(timeDelta);
