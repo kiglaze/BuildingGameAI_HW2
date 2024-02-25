@@ -14,6 +14,8 @@ public:
     // Override the virtual destructor
     virtual ~Align();
 
+    void setTargetRadius(float targetRad);
+
     float mapToRange(float rotation);
 
     // Override execute() method from SteeringBehavior
@@ -28,12 +30,12 @@ public:
 protected:
     Kinematic* target;
     Sprite* character;
+    float targetRadius = 15;
 
 private:
     // Private member variables
     float maxAngularAcceleration = .01;
     float maxRotation = 0.1;
-    float targetRadius = 15;
     float slowRadius = 45;
     float timeToTarget = 6;
 };

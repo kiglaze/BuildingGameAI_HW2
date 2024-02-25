@@ -201,26 +201,28 @@ int main()
             }
 
             if (timeDelta > 0) {
-                for (Sprite* sprite : sprites) {
-                    if (sprite == spriteF) {
-                        continue;
-                    }
-                    Arrive goTowardsSprite(spriteF, sprite);
-                    goTowardsSprite.execute(timeDelta);
+                if (false) {
+                    for (Sprite* sprite : sprites) {
+                        if (sprite == spriteF) {
+                            continue;
+                        }
+                        Arrive goTowardsSprite(spriteF, sprite);
+                        goTowardsSprite.execute(timeDelta);
 
-                    Face turnTowardsSprite(spriteF, sprite);
-                    turnTowardsSprite.execute(timeDelta);
+                        Face turnTowardsSprite(spriteF, sprite);
+                        turnTowardsSprite.execute(timeDelta);
+                    }
+                    // C, D, E, G
+                    CollisionAvoidance avoidCollisions(kinematics, spriteC);
+                    avoidCollisions.execute(timeDelta);
+                    CollisionAvoidance avoidCollisions2(kinematics, spriteD);
+                    avoidCollisions2.execute(timeDelta);
+                    CollisionAvoidance avoidCollisions3(kinematics, spriteE);
+                    avoidCollisions3.execute(timeDelta);
+                    /*
+                    CollisionAvoidance avoidCollisions4(kinematics, spriteG);
+                    avoidCollisions4.execute(timeDelta); */
                 }
-                // C, D, E, G
-                CollisionAvoidance avoidCollisions(kinematics, spriteC);
-                avoidCollisions.execute(timeDelta);
-                CollisionAvoidance avoidCollisions2(kinematics, spriteD);
-                avoidCollisions2.execute(timeDelta);
-                CollisionAvoidance avoidCollisions3(kinematics, spriteE);
-                avoidCollisions3.execute(timeDelta);
-                /*
-                CollisionAvoidance avoidCollisions4(kinematics, spriteG);
-                avoidCollisions4.execute(timeDelta); */
 
                 if (kinemMouseClickObj != nullptr) {
                     Arrive arriveBehavior(kinemMouseClickObj, spriteB);

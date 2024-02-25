@@ -27,14 +27,10 @@ SteeringData* Face::calculateAccelerationPointer() {
         result = nullptr;
     } else {
         float targetOrientation = atan2(direction.y, direction.x) * (180.0 / M_PI);
-        std::cout << "direction" << std::endl;
-        std::cout << direction.x << ", " << direction.y << std::endl;
-        std::cout << "targetOrientation" << std::endl;
-        std::cout << targetOrientation << std::endl;
         target = new Kinematic(parentTargetPosVect, targetOrientation, sf::Vector2f(0.0f, 0.0f), 0.0f);
         
         Align alignBehavior(target, character);
-        
+        alignBehavior.setTargetRadius(this->targetRadius);
         result = alignBehavior.calculateAccelerationPointer();
     }
     return result;
