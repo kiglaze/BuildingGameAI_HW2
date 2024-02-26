@@ -3,9 +3,15 @@
 
 #include <vector>
 #include "Sprite.h"
+#include "Crumb.h"
 
 class SpriteCollection {
 public:
+    SpriteCollection(std::vector<Crumb>* crumbs);
+    // Override the virtual destructor
+    virtual ~SpriteCollection();
+
+    void allSpritesDropCrumbs();
     void addSprite(Sprite* sprite);
     void removeSprite(Sprite* sprite);
     void drawAll(sf::RenderWindow& window);
@@ -18,6 +24,10 @@ public:
 
 private:
     std::vector<Sprite*> sprites;
+    std::vector<Crumb>* breadcrumbs;
+    float drop_timer = 100.f;
+    int crumb_idx;
+    sf::Vector2f bc_position;
 };
 
 #endif // SPRITECOLLECTION_H

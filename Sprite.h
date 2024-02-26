@@ -5,12 +5,15 @@
 #include <string>
 #include <vector>
 #include "Kinematic.h"
+#include "Crumb.h"
 
 class SpriteCollection; // Forward declaration if SpriteCollection is used
 
 class Sprite : public Kinematic {
 public:
-    Sprite(const std::string& textureFile, float posX, float posY, float orient, sf::Vector2f vel, float rot, int isLeader);
+    Sprite(const std::string& textureFile, float posX, float posY, float orient, sf::Vector2f vel, float rot, int isLeader, std::vector<Crumb>* crumbs);
+
+    void dropSomeCrumbs();
 
     sf::Vector2f getVelocityVector() const override;
     float getSpriteWidth();
@@ -62,6 +65,11 @@ private:
     int is_leader;
     int should_delete;
     //sf::Vector2f velocity;
+
+    std::vector<Crumb>* breadcrumbs;
+    float drop_timer = 25.f;
+    int crumb_idx = 0;
+    sf::Vector2f bc_position = sf::Vector2f(0.0f, 0.0f);
 };
 
 #endif // SPRITE_H

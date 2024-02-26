@@ -13,6 +13,7 @@
 #include "Wander.h"
 #include "CollisionAvoidance.h"
 #include "LookWhereYoureGoing.h"
+#include "Crumb.h"
 
 // @author Iris Glaze
 int main()
@@ -23,6 +24,17 @@ int main()
     float maxWindowY = 480.0;
     sf::RenderWindow window(sf::VideoMode(maxWindowX, maxWindowY), "SFML works!");
 
+
+    std::vector<Crumb> breadcrumbs = std::vector<Crumb>();
+    for(int i = 0; i < 10; i++)
+    {
+        Crumb c(i);
+        breadcrumbs.push_back(c);
+    }
+
+    breadcrumbs.at(0).drop(sf::Vector2f(100, 100));
+
+
     // Variables to store the mouse positions
     sf::Vector2i previousMousePositionInt = sf::Mouse::getPosition(window);
     sf::Vector2f previousMousePosition = sf::Vector2f(static_cast<float>(previousMousePositionInt.x), static_cast<float>(previousMousePositionInt.y));
@@ -31,7 +43,7 @@ int main()
     sf::Vector2f mouseVelocity(0.f, 0.f);
 
     //SpriteCollection myCollection;
-    SpriteCollection steeringCollection;
+    SpriteCollection steeringCollection(&breadcrumbs);
 
     ////float numPixels = 1.0;
     // Frame counter
@@ -40,17 +52,17 @@ int main()
 
     //myCollection.addStartingSprite(textureFilePath, 1);
 
-    Sprite* spriteA = new Sprite(textureFilePath, 125.f, 125.f, -55.0, sf::Vector2f(0, 0), 0, 0); // no
+    Sprite* spriteA = new Sprite(textureFilePath, 125.f, 125.f, -55.0, sf::Vector2f(0, 0), 0, 0, &breadcrumbs); // no
     //Sprite* spriteA = new Sprite(textureFilePath, 475.f, 125.f, 0); // yes
     //Sprite* spriteA = new Sprite(textureFilePath, 475.f, 375.f, 0); // yes
     //Sprite* spriteA = new Sprite(textureFilePath, 75.f, 375.f, 0); // no
     // set orientation of a Sprite
-    Sprite* spriteB = new Sprite(textureFilePath, 275.f, 325.f, 0, sf::Vector2f(0, 0), 0, 0);
+    Sprite* spriteB = new Sprite(textureFilePath, 275.f, 325.f, 0, sf::Vector2f(0, 0), 0, 0, &breadcrumbs);
     
-    Sprite* spriteC = new Sprite(textureFilePath, 325.f, 225.f, -55.0, sf::Vector2f(0, 0), 0, 0); // no
-    Sprite* spriteD = new Sprite(textureFilePath, 375.f, 265.f, -55.0, sf::Vector2f(0, 0), 0, 0); // no
-    Sprite* spriteE = new Sprite(textureFilePath, 475.f, 195.f, -55.0, sf::Vector2f(0, 0), 0, 0); // no
-    Sprite* spriteF = new Sprite(textureFilePath, 575.f, 95.f, -55.0, sf::Vector2f(0, 0), 0, 0); // no
+    Sprite* spriteC = new Sprite(textureFilePath, 325.f, 225.f, -55.0, sf::Vector2f(0, 0), 0, 0, &breadcrumbs); // no
+    Sprite* spriteD = new Sprite(textureFilePath, 375.f, 265.f, -55.0, sf::Vector2f(0, 0), 0, 0, &breadcrumbs); // no
+    Sprite* spriteE = new Sprite(textureFilePath, 475.f, 195.f, -55.0, sf::Vector2f(0, 0), 0, 0, &breadcrumbs); // no
+    Sprite* spriteF = new Sprite(textureFilePath, 575.f, 95.f, -55.0, sf::Vector2f(0, 0), 0, 0, &breadcrumbs); // no
     //Sprite* spriteG = new Sprite(textureFilePath, 475.f, 105.f, -55.0, sf::Vector2f(0, 0), 0, 0); // no
     
     std::vector<Kinematic*> kinematics;
@@ -259,6 +271,7 @@ int main()
                     /*
                     CollisionAvoidance avoidCollisions4(kinematics, spriteG);
                     avoidCollisions4.execute(timeDelta); */
+                    steeringCollection.allSpritesDropCrumbs();
                 }
 
                 if (kinemMouseClickObj != nullptr) {
@@ -292,6 +305,9 @@ int main()
             steeringCollection.deleteMarkedSprites();
         }
 
+        for(int i = 0; i < static_cast<int>(breadcrumbs.size()); i++) {
+            breadcrumbs[i].draw(&window);
+        }
         //myCollection.drawAll(window);
         steeringCollection.drawAll(window);
         window.display();

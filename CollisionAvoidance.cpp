@@ -52,15 +52,15 @@ SteeringData* CollisionAvoidance::calculateAccelerationPointer() {
         float timeToCollision = (timeToCollisionNumerator / timeToCollisionDenominator);
         
         // Check if there is going to be a collision at all.
-        std::cout << "COLLISION?!?!" << std::endl;
+        //std::cout << "COLLISION?!?!" << std::endl;
         float distance = getLengthOfVector(relativePos);
         float minSeparation = distance - (relativeSpeed * timeToCollision);
         if (minSeparation > (2 * collisionRadius)) {
             continue;
         }
-        std::cout << "XXXXXXX" << std::endl;
+        //std::cout << "XXXXXXX" << std::endl;
         // Check if it is the shortest.
-        std::cout << "timeToCollisionNumerator: " << timeToCollisionNumerator << "; timeToCollision: " << timeToCollision << "; ... shortestTime: " << shortestTime << std::endl;
+        //std::cout << "timeToCollisionNumerator: " << timeToCollisionNumerator << "; timeToCollision: " << timeToCollision << "; ... shortestTime: " << shortestTime << std::endl;
         if (timeToCollision > 0 && timeToCollision < shortestTime) {
             shortestTime = timeToCollision;
             firstTarget = target;
@@ -68,7 +68,7 @@ SteeringData* CollisionAvoidance::calculateAccelerationPointer() {
             firstDistance = distance;
             firstRelativePos = relativePos;
             firstRelativeVelocity = relativeVel;
-            std::cout << "YYYYYYYY" << std::endl;
+            //std::cout << "YYYYYYYY" << std::endl;
         }
     }
     // 2 - Calculate the steering.
@@ -86,7 +86,7 @@ SteeringData* CollisionAvoidance::calculateAccelerationPointer() {
     }
     normalizeVector(relativePos);
     result->setLinear(relativePos * maxAcceleration);
-    std::cout << "result.linear: " << result->getLinear().x << ", " << result->getLinear().y << std::endl;
+    //std::cout << "result.linear: " << result->getLinear().x << ", " << result->getLinear().y << std::endl;
     result->setAngular(0);
     return result;
 }

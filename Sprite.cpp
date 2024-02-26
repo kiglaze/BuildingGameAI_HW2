@@ -1,16 +1,18 @@
 #include "Sprite.h"
+#include "Crumb.h"
 #include <iostream>
 #include <vector>
 #include <cmath>
 
 // Constructor
-Sprite::Sprite(const std::string& textureFile, float posX, float posY, float orient, sf::Vector2f vel, float rot, int isLeader) : Kinematic(sf::Vector2f(posX, posY), orient, vel, rot) {
+Sprite::Sprite(const std::string& textureFile, float posX, float posY, float orient, sf::Vector2f vel, float rot, int isLeader, std::vector<Crumb>* crumbs) : Kinematic(sf::Vector2f(posX, posY), orient, vel, rot) {
     if (!texture.loadFromFile(textureFile)) {
         std::cerr << "Error loading texture" << std::endl;
     }
 
     //velocity = sf::Vector2f(0, 0);
     //angular_velocity = 0.0f;
+    breadcrumbs = crumbs;
 
     sprite.setTexture(texture);
     // Set the origin of the sprite to its center.
@@ -36,6 +38,29 @@ Sprite::Sprite(const std::string& textureFile, float posX, float posY, float ori
     setDirection(orient);
     setVelocityVector(vel.x, vel.y);
     setAngularVelocity(rot);
+}
+
+void Sprite::dropSomeCrumbs() {
+    if (drop_timer > 0)
+    {
+        std::cout<<"drop_timer"<<std::endl;
+        std::cout<<drop_timer<<std::endl;
+        drop_timer = drop_timer - 0.1f;
+        std::cout<<"drop_timer2"<<std::endl;
+        std::cout<<drop_timer<<std::endl;
+    }
+    else
+    {
+        std::cout<<"FTHIS"<<std::endl;
+        drop_timer = 25.f;
+        bc_position = getPosition();
+        breadcrumbs->at(crumb_idx).drop(bc_position);
+
+        if (crumb_idx < 9)
+            crumb_idx++;
+        else
+            crumb_idx = 0;
+    }
 }
 
 sf::Vector2f Sprite::getVelocityVector() const {

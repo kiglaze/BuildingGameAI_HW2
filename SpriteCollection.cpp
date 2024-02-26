@@ -1,6 +1,22 @@
 #include "SpriteCollection.h"
 #include "Sprite.h"
 
+SpriteCollection::SpriteCollection(std::vector<Crumb>* crumbs)
+: breadcrumbs(crumbs) { // Use initializer list here
+}
+
+SpriteCollection::~SpriteCollection() {
+
+}
+
+void SpriteCollection::allSpritesDropCrumbs() {
+    for (auto& sprite : sprites) {
+        if (sprite != nullptr) {
+            sprite->dropSomeCrumbs();
+        }
+    }
+}
+
 void SpriteCollection::addSprite(Sprite* sprite) {
     sprites.push_back(sprite);
 }
@@ -31,7 +47,7 @@ std::size_t SpriteCollection::getSpriteCount() {
 
 // Add a new sprite to the starting position.
 void SpriteCollection::addStartingSprite(std::string textureFilePath, int isLeader) {
-    Sprite* spriteA = new Sprite(textureFilePath, 25.f, 25.f, 0, sf::Vector2f(0, 0), 0, isLeader);
+    Sprite* spriteA = new Sprite(textureFilePath, 25.f, 25.f, 0, sf::Vector2f(0, 0), 0, isLeader, breadcrumbs);
     addSprite(spriteA);
 }
 
