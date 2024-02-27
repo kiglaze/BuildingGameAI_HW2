@@ -67,7 +67,7 @@ private:
     //sf::Vector2f velocity;
 
     std::vector<Crumb>* breadcrumbs;
-    float drop_timer = 25.f;
+    float drop_timer = 15.f;
     int crumb_idx = 0;
     sf::Vector2f bc_position = sf::Vector2f(0.0f, 0.0f);
 };

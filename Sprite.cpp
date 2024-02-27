@@ -51,8 +51,7 @@ void Sprite::dropSomeCrumbs() {
     }
     else
     {
-        std::cout<<"FTHIS"<<std::endl;
-        drop_timer = 25.f;
+        drop_timer = 15.f;
         bc_position = getPosition();
         breadcrumbs->at(crumb_idx).drop(bc_position);
 

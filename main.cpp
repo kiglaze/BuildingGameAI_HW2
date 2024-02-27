@@ -26,14 +26,11 @@ int main()
 
 
     std::vector<Crumb> breadcrumbs = std::vector<Crumb>();
-    for(int i = 0; i < 10; i++)
+    for(int i = 0; i < 100; i++)
     {
         Crumb c(i);
         breadcrumbs.push_back(c);
     }
-
-    breadcrumbs.at(0).drop(sf::Vector2f(100, 100));
-
 
     // Variables to store the mouse positions
     sf::Vector2i previousMousePositionInt = sf::Mouse::getPosition(window);
@@ -97,6 +94,7 @@ int main()
     bool isMatchingMouseVelocity = false;
     Kinematic* mouseMovementsKinObj = new Kinematic(currentMousePosition, 0.0f, sf::Vector2f(0.0f, 0.0f), 0.0f);
 
+    bool isFlockingOn = false;
 
     while (window.isOpen())
     {
@@ -224,6 +222,8 @@ int main()
                     delete wanderAltTargetObj;
                     wanderAltTargetObj = nullptr;
                 }
+                isMatchingMouseVelocity = false;
+                isFlockingOn = false;
             }
             
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::V)) {
@@ -231,13 +231,16 @@ int main()
                 isMatchingMouseVelocity = true;
 
             }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)) {
+                isFlockingOn = true;
+            }
             if (isMatchingMouseVelocity == true) {
                 mouseFollowArriveBehavior = new VelocityMatching(mouseMovementsKinObj, spriteF);
             }
 
             if (timeDelta > 0) {
                 // Flocking implementation here.
-                if (true) {
+                if (isFlockingOn) {
                     Kinematic* blankKinematic = new Kinematic(sf::Vector2f(0, 0), 0, sf::Vector2f(0, 0), 0);
                     LookWhereYoureGoing lookAheadBehavior(blankKinematic, spriteF);
                     lookAheadBehavior.execute(timeDelta);
@@ -281,6 +284,8 @@ int main()
 
                     Face faceBehavior(kinemMouseClickObj, spriteB);
                     faceBehavior.execute(timeDelta);
+
+                    spriteB->dropSomeCrumbs();
 
                     //Align alignBehavior(kinemMouseClickObj, spriteB);
                     //alignBehavior.execute(timeDelta);
