@@ -28,6 +28,9 @@ protected:
     float direction; // orientation
     sf::Vector2f velocity;
     float angular_velocity; // rotation
+
+    float maxWindowX = 640.0;
+    float maxWindowY = 480.0;
 };
 
 #endif // KINEMATIC_H

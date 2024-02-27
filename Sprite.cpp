@@ -119,6 +119,16 @@ sf::Vector2f Sprite::getPosition() const {
 
 // Set the position. 0, 0 is top left of the window. down is positive y. right is positive x.
 void Sprite::setPosition(float posX, float posY) {
+    if (posX > maxWindowX) {
+        posX = fmod(posX, maxWindowX);
+    } else if (posX < 0) {
+        posX = maxWindowX - fmod(posX, maxWindowX);
+    }
+    if (posY > maxWindowY) {
+        posY = fmod(posY, maxWindowY);
+    } else if (posY < 0) {
+        posY = maxWindowY - fmod(posY, maxWindowY);
+    }
     float dx = posX - getPosition().x;
     float dy = posY - getPosition().y;
     Kinematic::setPosition(posX, posY);
