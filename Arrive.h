@@ -15,6 +15,9 @@ public:
     // Override the virtual destructor
     virtual ~Arrive();
 
+    void setTargetRadius(float targetRadiusVal);
+    void setSlowRadius(float slowRadiusVal);
+
     // Override execute() method from SteeringBehavior
     void execute(float timeDelta) override;
 

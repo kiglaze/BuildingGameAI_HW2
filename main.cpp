@@ -224,13 +224,15 @@ int main()
                         }
                         Arrive goTowardsSprite(collectionCOMKinematic, sprite);
                         goTowardsSprite.execute(0.6 * timeDelta);
+                        goTowardsSprite.setSlowRadius(120);
+                        goTowardsSprite.setTargetRadius(70);
 
                         Face turnTowardsSprite(collectionCOMKinematic, sprite);
                         turnTowardsSprite.execute(timeDelta);
 
                         //VelocityMatching velMatchCOM(collectionCOMKinematic, sprite);
                         VelocityMatching velMatchCOM(collectionCOMKinematic, sprite);
-                        velMatchCOM.setMaxAcceleration(.005);
+                        velMatchCOM.setMaxAcceleration(.01);
                         velMatchCOM.execute(0.002 * timeDelta);
                     }
                     // C, D, E, G

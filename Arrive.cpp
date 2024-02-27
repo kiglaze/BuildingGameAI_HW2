@@ -14,6 +14,13 @@ Arrive::~Arrive() {
 
 }
 
+void Arrive::setTargetRadius(float targetRadiusVal) {
+    targetRadius = targetRadiusVal;
+}
+void Arrive::setSlowRadius(float slowRadiusVal) {
+    slowRadius = slowRadiusVal;
+}
+
 void Arrive::execute(float timeDelta) {
     SteeringData* sd = calculateAccelerationPointer();
 
