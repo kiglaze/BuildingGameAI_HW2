@@ -30,6 +30,9 @@ SteeringData* LookWhereYoureGoing::calculateAccelerationPointer() {
         target->setDirection(targetOrientation);
         Align alignBehavior(target, character);
         alignBehavior.setTargetRadius(this->targetRadius);
+        alignBehavior.setSlowRadius(5);
+        alignBehavior.setTimeToTarget(1);
+        alignBehavior.setMaxAngularAcceleration(0.05);
         result = alignBehavior.calculateAccelerationPointer();
     }
     return result;

@@ -16,6 +16,11 @@ public:
 
     void setTargetRadius(float targetRad);
 
+    void setMaxAngularAcceleration(float maxAngAcc);
+    void setMaxRotation(float maxRot);
+    void setSlowRadius(float slowRadiusVal);
+    void setTimeToTarget(float timeToTargetVal);
+
     float mapToRange(float rotation);
 
     // Override execute() method from SteeringBehavior
@@ -32,8 +37,6 @@ protected:
     Sprite* character;
     float targetRadius = 15;
 
-private:
-    // Private member variables
     float maxAngularAcceleration = .01;
     float maxRotation = 0.1;
     float slowRadius = 45;

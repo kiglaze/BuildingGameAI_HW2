@@ -202,16 +202,20 @@ int main()
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)) {
                 isFlockingOn = true;
             }
+            SteeringData* sdMouseVelMatchAndLook = nullptr;
             if (isMatchingMouseVelocity == true) {
                 mouseFollowArriveBehavior = new VelocityMatching(mouseMovementsKinObj, spriteF);
+                //Kinematic* blankKinematic = new Kinematic(sf::Vector2f(0, 0), 0, sf::Vector2f(0, 0), 0);
+                LookWhereYoureGoing lookAheadBehavior(mouseMovementsKinObj, spriteF);
+                mouseFollowArriveBehavior->execute(timeDelta);
+                lookAheadBehavior.execute(timeDelta);
+
+
             }
 
             if (timeDelta > 0) {
                 // Flocking implementation here.
                 if (isFlockingOn) {
-                    Kinematic* blankKinematic = new Kinematic(sf::Vector2f(0, 0), 0, sf::Vector2f(0, 0), 0);
-                    LookWhereYoureGoing lookAheadBehavior(blankKinematic, spriteF);
-                    lookAheadBehavior.execute(timeDelta);
                     // getCOMPosition
                     sf::Vector2f comPosVect = steeringCollection.getCOMPosition();
                     sf::Vector2f comVelVect = steeringCollection.getCOMVelocityVector();
@@ -273,10 +277,10 @@ int main()
                     spriteB->dropSomeCrumbs();
                 }
                 if (mouseFollowArriveBehavior != nullptr) {
-                    sf::Vector2f mousemovementsVect = mouseMovementsKinObj->getVelocityVector();
-                    std::cout << "mousemovementsVect" << std::endl;
-                    std::cout << mousemovementsVect.x << ", " << mousemovementsVect.y << std::endl;
-                    mouseFollowArriveBehavior->execute(timeDelta);
+                    // VelocityMatch execute and look where going execute combined
+                    if (sdMouseVelMatchAndLook != nullptr) {
+                        spriteF->update(*sdMouseVelMatchAndLook, timeDelta);
+                    }
                 }
             }
 

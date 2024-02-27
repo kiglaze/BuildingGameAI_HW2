@@ -19,6 +19,19 @@ void Align::setTargetRadius(float targetRad) {
     targetRadius = targetRad;
 }
 
+void Align::setMaxAngularAcceleration(float maxAngAcc) {
+    maxAngularAcceleration = maxAngAcc;
+}
+void Align::setMaxRotation(float maxRot) {
+    maxRotation = maxRot;
+}
+void Align::setSlowRadius(float slowRadiusVal) {
+    slowRadius = slowRadiusVal;
+}
+void Align::setTimeToTarget(float timeToTargetVal) {
+    timeToTarget = timeToTargetVal;
+}
+
 float Align::mapToRange(float rotation) {
     // Normalize the rotation to the range [-180, 180]
     rotation = fmod(rotation, 360.0f);
