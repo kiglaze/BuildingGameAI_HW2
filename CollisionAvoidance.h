@@ -24,7 +24,7 @@ protected:
 
 private:
     float maxAcceleration = 0.0003;
-    float collisionRadius = 80;
+    float collisionRadius = 180;
 };
 
 #endif

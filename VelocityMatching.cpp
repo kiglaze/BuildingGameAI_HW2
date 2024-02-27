@@ -15,6 +15,10 @@ VelocityMatching::~VelocityMatching() {
 
 }
 
+void VelocityMatching::setMaxAcceleration(float maxAccVal) {
+    maxAcceleration = maxAccVal;
+}
+
 void VelocityMatching::execute(float timeDelta) {
     SteeringData* sd = calculateAccelerationPointer();
 
@@ -36,15 +40,18 @@ SteeringData* VelocityMatching::calculateAccelerationPointer() {
     SteeringData* result = new SteeringData();
     sf::Vector2f originalCharacterVelVect = sf::Vector2f(character->getVelocityVector());
     sf::Vector2f roundedCharacterVelVect = sf::Vector2f(round(originalCharacterVelVect.x), round(originalCharacterVelVect.y));
-    sf::Vector2f resultLinear = target->getVelocityVector() - roundedCharacterVelVect;
-    std::cout << "target->getVelocityVector()" << std::endl;
-    std::cout << target->getVelocityVector().x << ", " << target->getVelocityVector().y << ", " << std::endl;
-    std::cout << "resultLinear" << std::endl;
-    std::cout << resultLinear.x << ", " << resultLinear.y << std::endl;
+
+    float targetSpeed = getLengthOfVector(target->getVelocityVector());
+    // Desired velocity
+    sf::Vector2f targetVelocity = target->getVelocityVector();
+    normalizeVector(targetVelocity);
+    targetVelocity *= targetSpeed;
+
+    // Assuming we have access to the current velocity of the object, which is not shown here
+    sf::Vector2f resultLinear = targetVelocity - roundedCharacterVelVect;
     resultLinear /= timeToTarget;
 
-    float resultLinearLength = getLengthOfVector(resultLinear);
-    if (resultLinearLength > maxAcceleration) {
+    if (getLengthOfVector(resultLinear) > maxAcceleration) {
         normalizeVector(resultLinear);
         resultLinear *= maxAcceleration;
     }

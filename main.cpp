@@ -209,8 +209,6 @@ int main()
                 LookWhereYoureGoing lookAheadBehavior(mouseMovementsKinObj, spriteF);
                 mouseFollowArriveBehavior->execute(timeDelta);
                 lookAheadBehavior.execute(timeDelta);
-
-
             }
 
             if (timeDelta > 0) {
@@ -225,24 +223,30 @@ int main()
                             continue;
                         }
                         Arrive goTowardsSprite(collectionCOMKinematic, sprite);
-                        goTowardsSprite.execute(timeDelta);
+                        goTowardsSprite.execute(0.6 * timeDelta);
 
                         Face turnTowardsSprite(collectionCOMKinematic, sprite);
                         turnTowardsSprite.execute(timeDelta);
+
+                        //VelocityMatching velMatchCOM(collectionCOMKinematic, sprite);
+                        VelocityMatching velMatchCOM(collectionCOMKinematic, sprite);
+                        velMatchCOM.setMaxAcceleration(.005);
+                        velMatchCOM.execute(0.002 * timeDelta);
                     }
                     // C, D, E, G
+                    int velocityMatchingWeight = 2;
                     CollisionAvoidance avoidCollisions(kinematics, spriteC);
-                    avoidCollisions.execute(timeDelta);
+                    avoidCollisions.execute(velocityMatchingWeight * timeDelta);
                     CollisionAvoidance avoidCollisions2(kinematics, spriteD);
-                    avoidCollisions2.execute(timeDelta);
+                    avoidCollisions2.execute(velocityMatchingWeight * timeDelta);
                     CollisionAvoidance avoidCollisions3(kinematics, spriteE);
-                    avoidCollisions3.execute(timeDelta);
+                    avoidCollisions3.execute(velocityMatchingWeight * timeDelta);
                     //CollisionAvoidance avoidCollisions4(kinematics, spriteF);
                     //avoidCollisions4.execute(timeDelta);
                     CollisionAvoidance avoidCollisions5(kinematics, spriteA);
-                    avoidCollisions5.execute(timeDelta);
+                    avoidCollisions5.execute(velocityMatchingWeight * timeDelta);
                     CollisionAvoidance avoidCollisions6(kinematics, spriteB);
-                    avoidCollisions6.execute(timeDelta);
+                    avoidCollisions6.execute(velocityMatchingWeight * timeDelta);
                     /*
                     CollisionAvoidance avoidCollisions4(kinematics, spriteG);
                     avoidCollisions4.execute(timeDelta); */

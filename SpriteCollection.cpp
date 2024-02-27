@@ -71,14 +71,24 @@ sf::Vector2f SpriteCollection::getCOMPosition() {
 sf::Vector2f SpriteCollection::getCOMVelocityVector() {
     std::vector<Sprite*> allSprites = getSprites();
     int allSpritesCount = getSpriteCount();
-    float sumXVelVal = 0;
-    float sumYVelVal = 0;
+    
+    // Initialize sums for velocity components
+    float sumXVel = 0;
+    float sumYVel = 0;
+    
+    // Loop through all sprites to sum up their velocity vectors
     for (Sprite* sprite : allSprites) {
         sf::Vector2f spriteVelVect = sprite->getVelocityVector();
-        sumXVelVal += spriteVelVect.x;
-        sumYVelVal += spriteVelVect.y;
+        sumXVel += spriteVelVect.x;
+        sumYVel += spriteVelVect.y;
     }
-    return sf::Vector2f((sumXVelVal/allSpritesCount), (sumYVelVal/allSpritesCount));
+    
+    // Calculate averages
+    float avgXVel = allSpritesCount > 0 ? sumXVel / allSpritesCount : 0;
+    float avgYVel = allSpritesCount > 0 ? sumYVel / allSpritesCount : 0;
+    
+    // Return the average velocity vector
+    return sf::Vector2f(avgXVel, avgYVel);
 }
 
 // Delete all sprites that are marked for deletion.

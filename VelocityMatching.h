@@ -14,8 +14,13 @@ class VelocityMatching : public SteeringBehavior {
 private:
     Kinematic* target; // Pointer to the target Kinematic object
     Sprite* character; // Pointer to the character Sprite object
+
+protected:
     float timeToTarget = 0.1; // set to 0.1
     float maxAcceleration = 0.03;
+    //float maxAcceleration = 0.005;
+    //float maxAcceleration = 0.09;
+    //float maxAcceleration = 0.9;
 
 public:
     // Constructor
@@ -23,6 +28,8 @@ public:
 
     // Destructor
     ~VelocityMatching();
+
+    void setMaxAcceleration(float maxAccVal);
 
     // Method to execute the velocity matching behavior
     void execute(float timeDelta) override;
