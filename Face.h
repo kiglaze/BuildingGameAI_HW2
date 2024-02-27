@@ -24,7 +24,7 @@ public:
     SteeringData* calculateAccelerationPointer() override;
 
 protected:
-    Kinematic* target;
+    Kinematic* target = nullptr;
     // Additional methods or member variables specific to Face, if needed
 
 private:

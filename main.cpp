@@ -11,6 +11,7 @@
 #include "SteeringData.h"
 #include "Kinematic.h"
 #include "Wander.h"
+#include "WanderAlt.h"
 #include "CollisionAvoidance.h"
 #include "LookWhereYoureGoing.h"
 #include "Crumb.h"
@@ -89,7 +90,9 @@ int main()
 
     Kinematic* kinemMouseClickObj = nullptr;
     Kinematic* wanderTargetObj = nullptr;
+    Wander* wanderObj = nullptr;
     Kinematic* wanderAltTargetObj = nullptr;
+    WanderAlt* wanderAltObj = nullptr;
     
     bool isMatchingMouseVelocity = false;
     Kinematic* mouseMovementsKinObj = new Kinematic(currentMousePosition, 0.0f, sf::Vector2f(0.0f, 0.0f), 0.0f);
@@ -291,12 +294,18 @@ int main()
                     //alignBehavior.execute(timeDelta);
                 }
                 if (wanderTargetObj != nullptr) {
-                    Wander wanderObj(wanderTargetObj, spriteB);
-                    wanderObj.execute(timeDelta);
+                    if (wanderObj == nullptr) {
+                        wanderObj = new Wander(wanderTargetObj, spriteB);
+                    }
+                    wanderObj->execute(timeDelta);
+                    spriteB->dropSomeCrumbs();
                 }
                 if (wanderAltTargetObj != nullptr) {
-                    Wander wanderAltObj(wanderAltTargetObj, spriteB);
-                    wanderAltObj.execute(timeDelta);
+                    if (wanderAltObj == nullptr) {
+                        wanderAltObj = new WanderAlt(wanderTargetObj, spriteB);
+                    }
+                    wanderAltObj->execute(timeDelta);
+                    spriteB->dropSomeCrumbs();
                 }
                 if (mouseFollowArriveBehavior != nullptr) {
                     sf::Vector2f mousemovementsVect = mouseMovementsKinObj->getVelocityVector();

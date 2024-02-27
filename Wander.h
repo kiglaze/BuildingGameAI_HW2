@@ -27,6 +27,8 @@ public:
 
     float generateRandomBinomial();
 
+    void updateWanderOrientation(float wanderOrientationValue);
+
     sf::Vector2f convertAngleToVector(float angleInDegrees);
 
     // Override calculateAcceleration() method from SteeringBehavior
@@ -35,13 +37,13 @@ public:
     SteeringData* calculateAccelerationPointer() override;
 
 private:
-    float wanderOffset = 20;
-    float wanderRadius = 105;
+    float wanderOffset = 305;
+    float wanderRadius = 295;
     float wanderRate = 70;
-    float wanderOrientation = 0.0f; // This could start at any value
-    float maxAcceleration = 0.05f;
-    float targetSpeed = 1.0f;
+    float maxAcceleration = 0.0005f;
+    float targetSpeed = 0.10f;
     float timeToTarget = 1.0f;
+    float wanderOrientation = -10.0f; // This could start at any value
 };
 
 #endif // WANDER_H

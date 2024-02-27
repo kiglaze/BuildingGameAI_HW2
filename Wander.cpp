@@ -43,6 +43,10 @@ float Wander::generateRandomBinomial() {
     return getRandNumZeroOne() - getRandNumZeroOne();
 }
 
+void Wander::updateWanderOrientation(float wanderOrientationValue) {
+    wanderOrientation = wanderOrientationValue;
+}
+
 sf::Vector2f Wander::convertAngleToVector(float angleInDegrees) {
     float angleInRadians = angleInDegrees * M_PI / 180.0;
     float x = std::cos(angleInRadians);
@@ -67,13 +71,13 @@ SteeringData* Wander::calculateAccelerationPointer() {
     sf::Vector2f targetPosition = character->getPosition() + wanderOffset * convertAngleToVector(character->getDirection());
     targetPosition += wanderRadius * convertAngleToVector(targetOrientation);
 
-
-
-
     sf::Vector2f directionVect = targetPosition - character->getPosition();
     sf::Vector2f targetVelocity = directionVect;
     normalizeVector(targetVelocity);
     targetVelocity *= targetSpeed;
+
+    float diffOrientation = targetOrientation - character->getDirection();
+    float targetAngularVelocity = diffOrientation / timeToTarget;
 
     sf::Vector2f resultLinear = targetVelocity - character->getVelocityVector();
     resultLinear /= timeToTarget;
@@ -83,13 +87,16 @@ SteeringData* Wander::calculateAccelerationPointer() {
         resultLinear *= maxAcceleration;
     }
 
-    target = new Kinematic(targetPosition, targetOrientation, targetVelocity, 0.0f);
+    if (target == nullptr) {
+        target = new Kinematic(targetPosition, targetOrientation, targetVelocity, targetAngularVelocity);
+    } else {
+        target->update(targetPosition, targetOrientation, targetVelocity, targetAngularVelocity);
+    }
 
     Face faceBehavior(target, character);
     faceBehavior.setTargetRadius(this->targetRadius);
     result = faceBehavior.calculateAccelerationPointer();
     // sf::Vector2f resultLinear = maxAcceleration * convertAngleToVector(character->getDirection());
-    // result->setLinear(resultLinear);
     result->setLinear(resultLinear);
     
 
