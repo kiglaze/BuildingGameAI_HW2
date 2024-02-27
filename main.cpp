@@ -51,9 +51,6 @@ int main()
     //myCollection.addStartingSprite(textureFilePath, 1);
 
     Sprite* spriteA = new Sprite(textureFilePath, 125.f, 125.f, -55.0, sf::Vector2f(0, 0), 0, 0, &breadcrumbs); // no
-    //Sprite* spriteA = new Sprite(textureFilePath, 475.f, 125.f, 0); // yes
-    //Sprite* spriteA = new Sprite(textureFilePath, 475.f, 375.f, 0); // yes
-    //Sprite* spriteA = new Sprite(textureFilePath, 75.f, 375.f, 0); // no
     // set orientation of a Sprite
     Sprite* spriteB = new Sprite(textureFilePath, 275.f, 325.f, 0, sf::Vector2f(0, 0), 0, 0, &breadcrumbs);
     
@@ -85,7 +82,7 @@ int main()
     steeringCollection.addSprite(spriteC);
     steeringCollection.addSprite(spriteD);
     steeringCollection.addSprite(spriteE);
-    steeringCollection.addSprite(spriteF);
+    steeringCollection.addSprite(spriteF); 
     //steeringCollection.addSprite(spriteG);
 
     Kinematic* kinemMouseClickObj = nullptr;
@@ -118,14 +115,8 @@ int main()
         // Check if 100 frames have passed
         if (frameCounter >= frameCountMark)
         {
-            // Adding a new leader sprite as soon as there are zero sprites.
-            //if (myCollection.getSpriteCount() == 0) {
-                //myCollection.addStartingSprite(textureFilePath, 1);
-            //}
-
             sf::Time elapsed = clock.restart();
             float timeDelta = elapsed.asMilliseconds();
-            //std::cout << timeDelta << std::endl;
             if (timeDelta > 0) { // Check to prevent division by zero
                 // Update current mouse position
                 sf::Vector2i currentMousePosInt = sf::Mouse::getPosition(window);
@@ -134,19 +125,14 @@ int main()
                 // Calculate displacement
                 sf::Vector2f displacement = currentMousePosition - previousMousePosition;
                 // Calculate velocity: velocity = displacement / time
-                // Note: This gives you velocity in pixels/second if deltaTime is in seconds
+                // Note: This gives you velocity in pixels/time unit.
                 mouseVelocity.x = displacement.x / timeDelta;
                 mouseVelocity.y = displacement.y / timeDelta;
-                //std::cout << "mouseVelocity" << std::endl;
-                //std::cout << mouseVelocity.x << ", " << mouseVelocity.y << std::endl;
 
                 if (mouseMovementsKinObj != nullptr) {
                     mouseMovementsKinObj->setPosition(currentMousePosition.x, currentMousePosition.y);
                     mouseMovementsKinObj->setVelocityVector(mouseVelocity.x, mouseVelocity.y);
 
-                    // sf::Vector2f mouseMvmtsVect = mouseMovementsKinObj->getVelocityVector();
-                    // std::cout << "mouseMvmtsVect" << std::endl;
-                    // std::cout << mouseMvmtsVect.x << ", " << mouseMvmtsVect.y << std::endl;
                 }
 
                 // Update previous mouse position
@@ -154,29 +140,8 @@ int main()
 
             }
 
-            //const std::vector<Sprite*> allSprites = myCollection.getSprites();
-/*             for (Sprite* sprite : allSprites) {
-                if (sprite != nullptr) {
-                    // Move sprite according to the direction attribute.
-                    sprite->moveAccordingToDirection(timeDelta, maxWindowX, maxWindowY);
-                    sprite->setHasStarted(1);
-                }
-            } */
-
             // Reset frame counter
             frameCounter = 0;
-/*             for (Sprite* sprite : allSprites) {
-                if (sprite != nullptr) {
-                    // Rotate the sprite if it reaches a corner.
-                    sprite->rotateIfNeeded(maxWindowX, maxWindowY);
-
-                    // Add a new sprite when the leader sprite reaches a corner.
-                    if (sprite->getHasReachedCorner() == 1 && sprite->getIsLeader() == 1 && sprite->shouldBeDeleted() == 0) {
-                        myCollection.addStartingSprite(textureFilePath, 0);
-                    }
-                }
-            } */
-
 
             // Activated by pressing "V" to have sprite velocity match the mouse.
             VelocityMatching* mouseFollowArriveBehavior = nullptr;
@@ -269,11 +234,11 @@ int main()
                     CollisionAvoidance avoidCollisions3(kinematics, spriteE);
                     avoidCollisions3.execute(timeDelta);
                     //CollisionAvoidance avoidCollisions4(kinematics, spriteF);
-                    //avoidCollisions3.execute(timeDelta);
+                    //avoidCollisions4.execute(timeDelta);
                     CollisionAvoidance avoidCollisions5(kinematics, spriteA);
-                    avoidCollisions3.execute(timeDelta);
+                    avoidCollisions5.execute(timeDelta);
                     CollisionAvoidance avoidCollisions6(kinematics, spriteB);
-                    avoidCollisions3.execute(timeDelta);
+                    avoidCollisions6.execute(timeDelta);
                     /*
                     CollisionAvoidance avoidCollisions4(kinematics, spriteG);
                     avoidCollisions4.execute(timeDelta); */
