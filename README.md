@@ -1,30 +1,17 @@
-How to run the code with the Makefile:
+# Flocking Sprites Assignment, HW#2
+
+## How to run the code with the Makefile:
 ```
 make clean
 make
 ./sfml-app
 ```
 
-
-How to run the code without the Makefile:
-```
-g++ -c main.cpp Sprite.cpp SpriteCollection.cpp
-g++ -o sfml-app main.o Sprite.o SpriteCollection.o -lsfml-graphics -lsfml-window -lsfml-system
-./sfml-app
-```
-
-```
-g++ -c main.cpp Sprite.cpp SpriteCollection.cpp Arrive.cpp SteeringData.cpp
-g++ -o sfml-app main.o Sprite.o SpriteCollection.o Arrive.o SteeringData.o -lsfml-graphics -lsfml-window -lsfml-system
-./sfml-app
-```
-
-```
- 1326  g++ -c main.cpp -o main.o
- 1327  g++ -c Sprite.cpp -o Sprite.o
- 1328  g++ -c SpriteCollection.cpp -o SpriteCollection.o
- 1329  g++ -c Arrive.cpp -o Arrive.o
- 1330  g++ -c SteeringData.cpp -o SteeringData.o
- 1331  g++ -o sfml-app main.o Sprite.o SpriteCollection.o Arrive.oSteeringData.o -lsfml-graphics -lsfml-window -lsfml-system
-
-```
+## How to use the program:
+- Click a spot on the screen to cause "Arrive" and "Align" behavior in one Sprite. *You may need to close and restart the programe afterwards to demo a different behavior.*
+- Press **"w"** to cause a sprite to perform wandering type #1.
+- Press **"q"** to cause a sprite to perform wandering type #2.
+- Press **"d"** to stop wandering.
+- Press **"v"** to cause the flocking leader to match the mouse velocity and face where it is going.
+- After **"v"** has been pressed, press **"f"** to cause all the sprites to "flock" and also follow the leader sprite. The leader sprite is the one that follows the velocity of the mouse.
+- Pressing **"d"** will stop and flocking or mouse velocity mathcing.
