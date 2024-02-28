@@ -25,9 +25,10 @@ public:
 private:
     std::vector<Sprite*> sprites;
     std::vector<Crumb>* breadcrumbs;
-    float drop_timer = 100.f;
-    int crumb_idx;
-    sf::Vector2f bc_position;
+    sf::Vector2f bc_position = sf::Vector2f(0.0f, 0.0f);
+
+    float drop_timer = 15.f;
+    int crumb_idx = 0;
 };
 
 #endif // SPRITECOLLECTION_H

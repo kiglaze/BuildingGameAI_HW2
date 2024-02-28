@@ -10,9 +10,23 @@ SpriteCollection::~SpriteCollection() {
 }
 
 void SpriteCollection::allSpritesDropCrumbs() {
-    for (auto& sprite : sprites) {
-        if (sprite != nullptr) {
-            sprite->dropSomeCrumbs();
+    if (drop_timer > 0)
+    {
+        drop_timer = drop_timer - 0.1f;
+    }
+    else
+    {
+        drop_timer = 15.f;
+        for (auto& sprite : sprites) {
+            if (sprite != nullptr) {
+                bc_position = sprite->getPosition();
+                breadcrumbs->at(crumb_idx).drop(bc_position);
+
+                if (crumb_idx < 54)
+                    crumb_idx++;
+                else
+                    crumb_idx = 0;
+            }
         }
     }
 }

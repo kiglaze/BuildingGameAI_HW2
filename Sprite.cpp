@@ -43,11 +43,7 @@ Sprite::Sprite(const std::string& textureFile, float posX, float posY, float ori
 void Sprite::dropSomeCrumbs() {
     if (drop_timer > 0)
     {
-        std::cout<<"drop_timer"<<std::endl;
-        std::cout<<drop_timer<<std::endl;
         drop_timer = drop_timer - 0.1f;
-        std::cout<<"drop_timer2"<<std::endl;
-        std::cout<<drop_timer<<std::endl;
     }
     else
     {

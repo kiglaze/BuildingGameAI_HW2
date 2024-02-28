@@ -249,10 +249,9 @@ int main()
                     avoidCollisions5.execute(velocityMatchingWeight * timeDelta);
                     CollisionAvoidance avoidCollisions6(kinematics, spriteB);
                     avoidCollisions6.execute(velocityMatchingWeight * timeDelta);
-                    /*
-                    CollisionAvoidance avoidCollisions4(kinematics, spriteG);
-                    avoidCollisions4.execute(timeDelta); */
+
                     steeringCollection.allSpritesDropCrumbs();
+
                 }
 
                 if (kinemMouseClickObj != nullptr) {
