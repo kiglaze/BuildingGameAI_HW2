@@ -16,6 +16,14 @@
 #include "LookWhereYoureGoing.h"
 #include "Crumb.h"
 
+// Function to add a wall
+void addWall(std::vector<sf::RectangleShape>& walls, const sf::Vector2f& size, const sf::Vector2f& position, const sf::Color& color) {
+    sf::RectangleShape wall(size);
+    wall.setPosition(position);
+    wall.setFillColor(color);
+    walls.push_back(wall);
+}
+
 // @author Iris Glaze
 int main()
 {
@@ -24,7 +32,15 @@ int main()
     // Window height is 3/4 of width.
     float maxWindowY = 480.0;
     sf::RenderWindow window(sf::VideoMode(maxWindowX, maxWindowY), "SFML works!");
+    
+    std::vector<sf::RectangleShape> walls;
+    float wallWidth = 10.0;
 
+    // bottom-left room
+    addWall(walls, sf::Vector2f(maxWindowX * 0.55, wallWidth), sf::Vector2f(20, maxWindowY - (wallWidth + 20)), sf::Color::Black);
+    addWall(walls, sf::Vector2f(wallWidth, maxWindowX * 0.35), sf::Vector2f(20, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Black);
+    addWall(walls, sf::Vector2f(maxWindowX * 0.55, wallWidth), sf::Vector2f(20, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Black);
+    addWall(walls, sf::Vector2f(wallWidth, (maxWindowX * 0.35) + wallWidth), sf::Vector2f(20 + (maxWindowX * 0.55), maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Black);
 
     std::vector<Crumb> breadcrumbs = std::vector<Crumb>();
     for(int i = 0; i < 100; i++)
@@ -301,6 +317,10 @@ int main()
         }
         //myCollection.drawAll(window);
         steeringCollection.drawAll(window);
+        // Draw all the walls
+        for (const auto& wall : walls) {
+            window.draw(wall);
+        }
         window.display();
     }
 
