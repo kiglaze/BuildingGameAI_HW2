@@ -301,8 +301,10 @@ int main()
         window.display();
     }
 
-    delete spriteA;
-    delete spriteB;
+    if (kinemMouseClickObj != nullptr) {
+        delete kinemMouseClickObj;
+        kinemMouseClickObj = nullptr; // To prevent dangling pointers
+    }
 
     return 0;
 }
