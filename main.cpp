@@ -263,9 +263,6 @@ int main()
                     faceBehavior.execute(timeDelta);
 
                     spriteB->dropSomeCrumbs();
-
-                    //Align alignBehavior(kinemMouseClickObj, spriteB);
-                    //alignBehavior.execute(timeDelta);
                 }
                 if (wanderTargetObj != nullptr) {
                     if (wanderObj == nullptr) {
@@ -289,8 +286,14 @@ int main()
                 }
             }
 
+
             //myCollection.deleteMarkedSprites();
             steeringCollection.deleteMarkedSprites();
+            
+            if (mouseFollowArriveBehavior != nullptr) {
+                delete mouseFollowArriveBehavior;
+                mouseFollowArriveBehavior = nullptr;
+            }
         }
 
         for(int i = 0; i < static_cast<int>(breadcrumbs.size()); i++) {
@@ -301,8 +304,18 @@ int main()
         window.display();
     }
 
-    delete spriteA;
-    delete spriteB;
+    if (kinemMouseClickObj != nullptr) {
+        delete kinemMouseClickObj;
+        kinemMouseClickObj = nullptr; // To prevent dangling pointers
+    }
+    if (wanderTargetObj != nullptr) {
+        delete wanderTargetObj;
+        wanderTargetObj = nullptr;
+    }
+    if (wanderAltTargetObj != nullptr) {
+        delete wanderAltTargetObj;
+        wanderAltTargetObj = nullptr;
+    }
 
     return 0;
 }

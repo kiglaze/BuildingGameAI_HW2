@@ -26,23 +26,10 @@ void Arrive::execute(float timeDelta) {
 
     if (sd != nullptr) {
         character->update(*sd, timeDelta);
+        delete sd;
+        sd = nullptr;
     }
 }
-
-/* void Arrive::execute(float timeDelta) {
-    SteeringData result = calculateAcceleration();
-    sf::Vector2f newPosVect = (character->getPosition()) + (character->getVelocityVector() * timeDelta);
-    character->setPosition(newPosVect.x, newPosVect.y);
-
-    character->setDirection(character->getDirection() + (character->getAngularVelocity() * timeDelta));
-
-    sf::Vector2f newVelVect = character->getVelocityVector() + (result.linear * timeDelta);
-    character->setVelocityVector(newVelVect.x, newVelVect.y);
-
-    float newAngularVelocity = character->getAngularVelocity() + (result.angular * timeDelta);
-
-    character->setAngularVelocity(newAngularVelocity);
-} */
 
 SteeringData Arrive::calculateAcceleration() {
     return SteeringData();

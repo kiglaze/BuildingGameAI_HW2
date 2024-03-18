@@ -6,7 +6,11 @@ SpriteCollection::SpriteCollection(std::vector<Crumb>* crumbs)
 }
 
 SpriteCollection::~SpriteCollection() {
-
+    // Iterate through the vector and delete all Sprite objects
+    for (auto& sprite : sprites) {
+        delete sprite; // Delete the dynamically allocated Sprite object
+    }
+    sprites.clear(); // Clear the vector to remove all the pointers
 }
 
 void SpriteCollection::allSpritesDropCrumbs() {
