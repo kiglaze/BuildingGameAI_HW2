@@ -42,6 +42,13 @@ int main()
     addWall(walls, sf::Vector2f(maxWindowX * 0.55, wallWidth), sf::Vector2f(20, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Black);
     addWall(walls, sf::Vector2f(wallWidth, (maxWindowX * 0.35) + wallWidth), sf::Vector2f(20 + (maxWindowX * 0.55), maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Black);
 
+    // top room
+    addWall(walls, sf::Vector2f(maxWindowX * 0.55, wallWidth), sf::Vector2f(120, maxWindowY - (wallWidth + 20) - 225), sf::Color::Black);
+    addWall(walls, sf::Vector2f(wallWidth, maxWindowX * 0.30), sf::Vector2f(120, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.30) - 225), sf::Color::Black);
+    addWall(walls, sf::Vector2f(maxWindowX * 0.55, wallWidth), sf::Vector2f(120, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.30) - 225), sf::Color::Black);
+    addWall(walls, sf::Vector2f(wallWidth, (maxWindowX * 0.30) + wallWidth), sf::Vector2f(120 + (maxWindowX * 0.55), maxWindowY - (wallWidth + 20) - (maxWindowX * 0.30) - 225), sf::Color::Black);
+
+
     std::vector<Crumb> breadcrumbs = std::vector<Crumb>();
     for(int i = 0; i < 100; i++)
     {
