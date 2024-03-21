@@ -39,19 +39,26 @@ int main()
     // bottom-left room
     addWall(walls, sf::Vector2f(maxWindowX * 0.55, wallWidth), sf::Vector2f(10, maxWindowY - (wallWidth + 20)), sf::Color::Black);
     addWall(walls, sf::Vector2f(wallWidth, maxWindowX * 0.35), sf::Vector2f(10, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Black);
-    addWall(walls, sf::Vector2f(maxWindowX * 0.55, wallWidth), sf::Vector2f(10, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Black);
-    addWall(walls, sf::Vector2f(wallWidth, (maxWindowX * 0.35) + wallWidth), sf::Vector2f(10 + (maxWindowX * 0.55), maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Black);
+    //addWall(walls, sf::Vector2f(maxWindowX * 0.55, wallWidth), sf::Vector2f(10, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Blue);
+    addWall(walls, sf::Vector2f(maxWindowX * 0.30, wallWidth), sf::Vector2f(10, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Green);
+    addWall(walls, sf::Vector2f(maxWindowX * 0.20, wallWidth), sf::Vector2f(290, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Green);
+    //addWall(walls, sf::Vector2f(wallWidth, (maxWindowX * 0.35) + wallWidth), sf::Vector2f(10 + (maxWindowX * 0.55), maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Blue);
+    addWall(walls, sf::Vector2f(wallWidth, (maxWindowX * 0.12) + wallWidth), sf::Vector2f(10 + (maxWindowX * 0.55), maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Green);
+    addWall(walls, sf::Vector2f(wallWidth, (maxWindowX * 0.10) + wallWidth), sf::Vector2f(10 + (maxWindowX * 0.55), 385), sf::Color::Green);
 
     // top room
-    addWall(walls, sf::Vector2f(maxWindowX * 0.70, wallWidth), sf::Vector2f(120, maxWindowY - (wallWidth + 20) - 225), sf::Color::Black);
+    //addWall(walls, sf::Vector2f(maxWindowX * 0.70, wallWidth), sf::Vector2f(120, maxWindowY - (wallWidth + 20) - 225), sf::Color::Blue);
     addWall(walls, sf::Vector2f(wallWidth, maxWindowX * 0.30), sf::Vector2f(120, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.30) - 225), sf::Color::Black);
     addWall(walls, sf::Vector2f(maxWindowX * 0.70, wallWidth), sf::Vector2f(120, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.30) - 225), sf::Color::Black);
     addWall(walls, sf::Vector2f(wallWidth, (maxWindowX * 0.30) + wallWidth), sf::Vector2f(120 + (maxWindowX * 0.70), maxWindowY - (wallWidth + 20) - (maxWindowX * 0.30) - 225), sf::Color::Black);
 
     // bottom-right room
     addWall(walls, sf::Vector2f(maxWindowX * 0.40, wallWidth), sf::Vector2f(370, maxWindowY - (wallWidth + 20)), sf::Color::Black);
-    addWall(walls, sf::Vector2f(wallWidth, maxWindowX * 0.35), sf::Vector2f(370, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Black);
-    addWall(walls, sf::Vector2f(maxWindowX * 0.40, wallWidth), sf::Vector2f(370, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Black);
+    //addWall(walls, sf::Vector2f(wallWidth, maxWindowX * 0.35), sf::Vector2f(370, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Blue);
+    //addWall(walls, sf::Vector2f(maxWindowX * 0.40, wallWidth), sf::Vector2f(370, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Blue);
+    addWall(walls, sf::Vector2f(maxWindowX * 0.10, wallWidth), sf::Vector2f(370, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Green);
+    addWall(walls, sf::Vector2f(maxWindowX * 0.15, wallWidth), sf::Vector2f(530, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Green);
+
     addWall(walls, sf::Vector2f(wallWidth, (maxWindowX * 0.35) + wallWidth), sf::Vector2f(370 + (maxWindowX * 0.40), maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Black);
 
 
@@ -138,12 +145,20 @@ int main()
         frameCounter++;
 
         window.clear(sf::Color(200, 0, 0, 255));
+        
 
         int frameCountMark = 10;
 
         // Check if 100 frames have passed
         if (frameCounter >= frameCountMark)
         {
+            // Get the current mouse position in the window
+            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+
+            // Optional: Display the mouse position in the console
+            std::cout << "Mouse position: " << mousePos.x << ", " << mousePos.y << "\r";
+            std::flush(std::cout); // Flush to update the position in the console in real-time
+
             sf::Time elapsed = clock.restart();
             float timeDelta = elapsed.asMilliseconds();
             if (timeDelta > 0) { // Check to prevent division by zero
