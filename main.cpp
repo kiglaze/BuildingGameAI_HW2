@@ -24,6 +24,10 @@ void addWall(std::vector<sf::RectangleShape>& walls, const sf::Vector2f& size, c
     walls.push_back(wall);
 }
 
+int convertPixelToTileNum(float pixelDimensionVal, float tileSize) {
+    return (pixelDimensionVal - (tileSize / 2)) / tileSize;
+}
+
 // @author Iris Glaze
 int main()
 {
@@ -36,15 +40,15 @@ int main()
     std::vector<sf::RectangleShape> walls;
     float wallWidth = 10.0;
 
-    // bottom-left room: x range: 22-360. y range: 238-451
-    addWall(walls, sf::Vector2f(maxWindowX * 0.55, wallWidth), sf::Vector2f(10, maxWindowY - (wallWidth + 20)), sf::Color::Black);
-    addWall(walls, sf::Vector2f(wallWidth, maxWindowX * 0.35), sf::Vector2f(10, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Black);
+    // bottom-left room: x range: 50-360. y range: 238-451
+    addWall(walls, sf::Vector2f(maxWindowX * 0.55, wallWidth), sf::Vector2f(40, maxWindowY - (wallWidth + 20)), sf::Color::Black);
+    addWall(walls, sf::Vector2f(wallWidth, maxWindowX * 0.35), sf::Vector2f(40, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Black);
     //addWall(walls, sf::Vector2f(maxWindowX * 0.55, wallWidth), sf::Vector2f(10, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Blue);
-    addWall(walls, sf::Vector2f(maxWindowX * 0.30, wallWidth), sf::Vector2f(10, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Green);
-    addWall(walls, sf::Vector2f(maxWindowX * 0.20, wallWidth), sf::Vector2f(290, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Green);
+    addWall(walls, sf::Vector2f(maxWindowX * 0.30, wallWidth), sf::Vector2f(40, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Green);
+    addWall(walls, sf::Vector2f(maxWindowX * 0.20, wallWidth), sf::Vector2f(320, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Green);
     //addWall(walls, sf::Vector2f(wallWidth, (maxWindowX * 0.35) + wallWidth), sf::Vector2f(10 + (maxWindowX * 0.55), maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Blue);
-    addWall(walls, sf::Vector2f(wallWidth, (maxWindowX * 0.12) + wallWidth), sf::Vector2f(10 + (maxWindowX * 0.55), maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Green);
-    addWall(walls, sf::Vector2f(wallWidth, (maxWindowX * 0.10) + wallWidth), sf::Vector2f(10 + (maxWindowX * 0.55), 385), sf::Color::Green);
+    addWall(walls, sf::Vector2f(wallWidth, (maxWindowX * 0.12) + wallWidth), sf::Vector2f(40 + (maxWindowX * 0.55), maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Green);
+    addWall(walls, sf::Vector2f(wallWidth, (maxWindowX * 0.10) + wallWidth), sf::Vector2f(40 + (maxWindowX * 0.55), 385), sf::Color::Green);
 
     // top room: x range: 131(left)-568(right). y range: 45(top)-225(bottom)
     //addWall(walls, sf::Vector2f(maxWindowX * 0.70, wallWidth), sf::Vector2f(120, maxWindowY - (wallWidth + 20) - 225), sf::Color::Blue);
@@ -53,12 +57,54 @@ int main()
     addWall(walls, sf::Vector2f(wallWidth, (maxWindowX * 0.30) + wallWidth), sf::Vector2f(120 + (maxWindowX * 0.70), maxWindowY - (wallWidth + 20) - (maxWindowX * 0.30) - 225), sf::Color::Black);
 
     // bottom-right room: x range: 374-625. y range: 238-450
-    addWall(walls, sf::Vector2f(maxWindowX * 0.40, wallWidth), sf::Vector2f(370, maxWindowY - (wallWidth + 20)), sf::Color::Black);
+    addWall(walls, sf::Vector2f(maxWindowX * 0.35, wallWidth), sf::Vector2f(400, maxWindowY - (wallWidth + 20)), sf::Color::Black);
     //addWall(walls, sf::Vector2f(wallWidth, maxWindowX * 0.35), sf::Vector2f(370, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Blue);
     //addWall(walls, sf::Vector2f(maxWindowX * 0.40, wallWidth), sf::Vector2f(370, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Blue);
-    addWall(walls, sf::Vector2f(maxWindowX * 0.10, wallWidth), sf::Vector2f(370, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Green);
-    addWall(walls, sf::Vector2f(maxWindowX * 0.15, wallWidth), sf::Vector2f(530, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Green);
-    addWall(walls, sf::Vector2f(wallWidth, (maxWindowX * 0.35) + wallWidth), sf::Vector2f(370 + (maxWindowX * 0.40), maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Black);
+    addWall(walls, sf::Vector2f(maxWindowX * 0.10, wallWidth), sf::Vector2f(400, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Green);
+    addWall(walls, sf::Vector2f(maxWindowX * 0.10, wallWidth), sf::Vector2f(560, maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Green);
+    addWall(walls, sf::Vector2f(wallWidth, (maxWindowX * 0.35) + wallWidth), sf::Vector2f(400 + (maxWindowX * 0.35), maxWindowY - (wallWidth + 20) - (maxWindowX * 0.35)), sf::Color::Black);
+
+
+    // Getting positions of centers of tiles. Green dots mark them.
+    float tileSize = 40;
+    float maxTilesX = maxWindowX / tileSize;
+    float maxTilesY = maxWindowY / tileSize;
+
+    // Create a vector to hold our green dots
+    std::vector<sf::CircleShape> greenDots;
+
+    // Example positions for green dots
+    std::vector<sf::Vector2f> positions = {};
+/*         {100, 100}, {200, 200}, {300, 300}, {400, 400}, {500, 500}
+    }; */
+
+    for (int i = 0; i < maxTilesY; ++i) {
+        for (int j = 0; j < maxTilesX; ++j) {
+            bool isInLowerLeftRoom = j > convertPixelToTileNum(50, tileSize) && j <= convertPixelToTileNum(360, tileSize) && i > convertPixelToTileNum(238, tileSize) &&  i <= convertPixelToTileNum(451, tileSize);
+            bool isInUpperRoom = j > convertPixelToTileNum(131, tileSize) && j <= convertPixelToTileNum(568, tileSize) && i > convertPixelToTileNum(45, tileSize) &&  i <= convertPixelToTileNum(225, tileSize);
+            bool isInLowerRightRoom = j > convertPixelToTileNum(374, tileSize) && j <= convertPixelToTileNum(625, tileSize) && i > convertPixelToTileNum(238, tileSize) &&  i <= convertPixelToTileNum(451, tileSize);
+
+            if (isInLowerLeftRoom || isInUpperRoom || isInLowerRightRoom) {
+                positions.push_back(sf::Vector2f((j * tileSize) + (tileSize / 2), (i * tileSize) + (tileSize / 2)));
+            }
+        }
+    }
+/*     for (int j = 0; j < maxTilesY; ++j) {
+        positions.push_back(sf::Vector2f((j * tileSize) + (tileSize / 2), (tileSize / 2)));
+    } */
+
+    // for i in 1, maxTilesX
+        // push this to positions: { (tileSize/2), ((i * tileSize) - (tileSize / 2)) }
+
+    // Populate the vector with green dots
+    for (const auto& pos : positions)
+    {
+        sf::CircleShape dot(5); // Dot with radius 5
+        dot.setFillColor(sf::Color::Green);
+        dot.setPosition(pos);
+        greenDots.push_back(dot);
+    }
+
 
 
     std::vector<Crumb> breadcrumbs = std::vector<Crumb>();
@@ -348,6 +394,13 @@ int main()
         for (const auto& wall : walls) {
             window.draw(wall);
         }
+
+        // Draw all green dots to mark the tiles.
+        for (const auto& dot : greenDots)
+        {
+            window.draw(dot);
+        }
+
         window.display();
     }
 
