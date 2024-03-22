@@ -7,12 +7,8 @@
 #include "Arrive.h"
 #include "Align.h"
 #include "Face.h"
-#include "VelocityMatching.h"
 #include "SteeringData.h"
 #include "Kinematic.h"
-#include "Wander.h"
-#include "WanderAlt.h"
-#include "CollisionAvoidance.h"
 #include "LookWhereYoureGoing.h"
 #include "Crumb.h"
 
