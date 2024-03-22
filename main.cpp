@@ -118,8 +118,6 @@ int main()
     sf::Vector2i previousMousePositionInt = sf::Mouse::getPosition(window);
     sf::Vector2f previousMousePosition = sf::Vector2f(static_cast<float>(previousMousePositionInt.x), static_cast<float>(previousMousePositionInt.y));
     sf::Vector2f currentMousePosition;
-    // Variables to store the velocity
-    sf::Vector2f mouseVelocity(0.f, 0.f);
 
     //SpriteCollection myCollection;
     SpriteCollection steeringCollection(&breadcrumbs);
@@ -129,50 +127,20 @@ int main()
     int frameCounter = 0;
     std::string textureFilePath = "./sprite_high_res.png";
 
-    //myCollection.addStartingSprite(textureFilePath, 1);
-
-    Sprite* spriteA = new Sprite(textureFilePath, 125.f, 125.f, -55.0, sf::Vector2f(0, 0), 0, 0, &breadcrumbs); // no
-    // set orientation of a Sprite
     Sprite* spriteB = new Sprite(textureFilePath, 275.f, 325.f, 0, sf::Vector2f(0, 0), 0, 0, &breadcrumbs);
-    
-    Sprite* spriteC = new Sprite(textureFilePath, 325.f, 225.f, -55.0, sf::Vector2f(0, 0), 0, 0, &breadcrumbs); // no
-    Sprite* spriteD = new Sprite(textureFilePath, 375.f, 265.f, -55.0, sf::Vector2f(0, 0), 0, 0, &breadcrumbs); // no
-    Sprite* spriteE = new Sprite(textureFilePath, 475.f, 195.f, -55.0, sf::Vector2f(0, 0), 0, 0, &breadcrumbs); // no
-    Sprite* spriteF = new Sprite(textureFilePath, 575.f, 95.f, -55.0, sf::Vector2f(0, 0), 0, 0, &breadcrumbs); // no
-    //Sprite* spriteG = new Sprite(textureFilePath, 475.f, 105.f, -55.0, sf::Vector2f(0, 0), 0, 0); // no
     
     std::vector<Kinematic*> kinematics;
     std::vector<Sprite*> sprites;
-    sprites.push_back(spriteC);
-    sprites.push_back(spriteD);
-    sprites.push_back(spriteE);
-    sprites.push_back(spriteF);
 
-    sprites.push_back(spriteA);
     sprites.push_back(spriteB);
-    //sprites.push_back(spriteG);
     for (Sprite* sprite : sprites) {
         kinematics.push_back(sprite);
     }
 
-    
-    
-    steeringCollection.addSprite(spriteA);
     steeringCollection.addSprite(spriteB);
-
-    steeringCollection.addSprite(spriteC);
-    steeringCollection.addSprite(spriteD);
-    steeringCollection.addSprite(spriteE);
-    steeringCollection.addSprite(spriteF); 
-    //steeringCollection.addSprite(spriteG);
 
     Kinematic* kinemMouseClickObj = nullptr;
     
-    bool isMatchingMouseVelocity = false;
-    Kinematic* mouseMovementsKinObj = new Kinematic(currentMousePosition, 0.0f, sf::Vector2f(0.0f, 0.0f), 0.0f);
-
-    bool isFlockingOn = false;
-
     while (window.isOpen())
     {
         sf::Event event;
@@ -207,19 +175,6 @@ int main()
                 sf::Vector2i currentMousePosInt = sf::Mouse::getPosition(window);
                 currentMousePosition = sf::Vector2f(static_cast<float>(currentMousePosInt.x), static_cast<float>(currentMousePosInt.y));
 
-                // Calculate displacement
-                sf::Vector2f displacement = currentMousePosition - previousMousePosition;
-                // Calculate velocity: velocity = displacement / time
-                // Note: This gives you velocity in pixels/time unit.
-                mouseVelocity.x = displacement.x / timeDelta;
-                mouseVelocity.y = displacement.y / timeDelta;
-
-                if (mouseMovementsKinObj != nullptr) {
-                    mouseMovementsKinObj->setPosition(currentMousePosition.x, currentMousePosition.y);
-                    mouseMovementsKinObj->setVelocityVector(mouseVelocity.x, mouseVelocity.y);
-
-                }
-
                 // Update previous mouse position
                 previousMousePosition = currentMousePosition;
 
@@ -229,7 +184,6 @@ int main()
             frameCounter = 0;
 
             // Activated by pressing "V" to have sprite velocity match the mouse.
-            VelocityMatching* mouseFollowArriveBehavior = nullptr;
             if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                 sf::Vector2i localPosition = sf::Mouse::getPosition(window);
                 // If left mouse click, arrive and align to that spot.
@@ -240,71 +194,8 @@ int main()
                 }
                 kinemMouseClickObj = new Kinematic(sf::Vector2f(localPosition.x, localPosition.y), 0, sf::Vector2f(0, 0), 0);
             }
-            // wanderTargetObj, kinemMouseClickObj, wanderAltTargetObj, 
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-                isMatchingMouseVelocity = false;
-                isFlockingOn = false;
-            }
-            
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::V)) {
-                // Velocity matching to the mouse.
-                isMatchingMouseVelocity = true;
-
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)) {
-                isFlockingOn = true;
-            }
-            SteeringData* sdMouseVelMatchAndLook = nullptr;
-            if (isMatchingMouseVelocity == true) {
-                mouseFollowArriveBehavior = new VelocityMatching(mouseMovementsKinObj, spriteF);
-                //Kinematic* blankKinematic = new Kinematic(sf::Vector2f(0, 0), 0, sf::Vector2f(0, 0), 0);
-                LookWhereYoureGoing lookAheadBehavior(mouseMovementsKinObj, spriteF);
-                mouseFollowArriveBehavior->execute(timeDelta);
-                lookAheadBehavior.execute(timeDelta);
-            }
 
             if (timeDelta > 0) {
-                // Flocking implementation here.
-                if (isFlockingOn) {
-                    // getCOMPosition
-                    sf::Vector2f comPosVect = steeringCollection.getCOMPosition();
-                    sf::Vector2f comVelVect = steeringCollection.getCOMVelocityVector();
-                    Kinematic* collectionCOMKinematic = new Kinematic(comPosVect, 0, comVelVect, 0);
-                    for (Sprite* sprite : sprites) {
-                        if (sprite == spriteF) {
-                            continue;
-                        }
-                        Arrive goTowardsSprite(collectionCOMKinematic, sprite);
-                        goTowardsSprite.execute(0.6 * timeDelta);
-                        goTowardsSprite.setSlowRadius(120);
-                        goTowardsSprite.setTargetRadius(70);
-
-                        Face turnTowardsSprite(collectionCOMKinematic, sprite);
-                        turnTowardsSprite.execute(timeDelta);
-
-                        //VelocityMatching velMatchCOM(collectionCOMKinematic, sprite);
-                        VelocityMatching velMatchCOM(collectionCOMKinematic, sprite);
-                        velMatchCOM.setMaxAcceleration(.01);
-                        velMatchCOM.execute(0.002 * timeDelta);
-                    }
-                    // C, D, E, G
-                    int velocityMatchingWeight = 2;
-                    CollisionAvoidance avoidCollisions(kinematics, spriteC);
-                    avoidCollisions.execute(velocityMatchingWeight * timeDelta);
-                    CollisionAvoidance avoidCollisions2(kinematics, spriteD);
-                    avoidCollisions2.execute(velocityMatchingWeight * timeDelta);
-                    CollisionAvoidance avoidCollisions3(kinematics, spriteE);
-                    avoidCollisions3.execute(velocityMatchingWeight * timeDelta);
-                    //CollisionAvoidance avoidCollisions4(kinematics, spriteF);
-                    //avoidCollisions4.execute(timeDelta);
-                    CollisionAvoidance avoidCollisions5(kinematics, spriteA);
-                    avoidCollisions5.execute(velocityMatchingWeight * timeDelta);
-                    CollisionAvoidance avoidCollisions6(kinematics, spriteB);
-                    avoidCollisions6.execute(velocityMatchingWeight * timeDelta);
-
-                    steeringCollection.allSpritesDropCrumbs();
-
-                }
 
                 if (kinemMouseClickObj != nullptr) {
                     Arrive arriveBehavior(kinemMouseClickObj, spriteB);
@@ -317,22 +208,12 @@ int main()
                     spriteB->dropSomeCrumbs();
                 }
 
-                if (mouseFollowArriveBehavior != nullptr) {
-                    // VelocityMatch execute and look where going execute combined
-                    if (sdMouseVelMatchAndLook != nullptr) {
-                        spriteF->update(*sdMouseVelMatchAndLook, timeDelta);
-                    }
-                }
             }
 
 
             //myCollection.deleteMarkedSprites();
             steeringCollection.deleteMarkedSprites();
             
-            if (mouseFollowArriveBehavior != nullptr) {
-                delete mouseFollowArriveBehavior;
-                mouseFollowArriveBehavior = nullptr;
-            }
         }
 
         for(int i = 0; i < static_cast<int>(breadcrumbs.size()); i++) {
