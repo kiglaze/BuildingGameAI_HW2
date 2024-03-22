@@ -28,8 +28,8 @@ Sprite::Sprite(const std::string& textureFile, float posX, float posY, float ori
     sf::Vector2u textureSize = texture.getSize();
 
     // Setting the sprite size to 50x50 pixels. Involves setting the scale.
-    float desiredWidth = 50.0f;
-    float desiredHeight = 50.0f;
+    float desiredWidth = 40.0f;
+    float desiredHeight = 40.0f;
     float scaleX = desiredWidth / textureSize.x;
     float scaleY = desiredHeight / textureSize.y;
     sprite.setScale(scaleX, scaleY);
