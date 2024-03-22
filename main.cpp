@@ -167,10 +167,6 @@ int main()
     //steeringCollection.addSprite(spriteG);
 
     Kinematic* kinemMouseClickObj = nullptr;
-    Kinematic* wanderTargetObj = nullptr;
-    Wander* wanderObj = nullptr;
-    Kinematic* wanderAltTargetObj = nullptr;
-    WanderAlt* wanderAltObj = nullptr;
     
     bool isMatchingMouseVelocity = false;
     Kinematic* mouseMovementsKinObj = new Kinematic(currentMousePosition, 0.0f, sf::Vector2f(0.0f, 0.0f), 0.0f);
@@ -237,48 +233,15 @@ int main()
             if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                 sf::Vector2i localPosition = sf::Mouse::getPosition(window);
                 // If left mouse click, arrive and align to that spot.
-                if (wanderTargetObj != nullptr) {
-                    delete wanderTargetObj;
-                    wanderTargetObj = nullptr;
-                }
-                if (wanderAltTargetObj != nullptr) {
-                    delete wanderAltTargetObj;
-                    wanderAltTargetObj = nullptr;
-                }
+
                 if (kinemMouseClickObj != nullptr) {
                     delete kinemMouseClickObj;
                     kinemMouseClickObj = nullptr;
                 }
                 kinemMouseClickObj = new Kinematic(sf::Vector2f(localPosition.x, localPosition.y), 0, sf::Vector2f(0, 0), 0);
             }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-                // If press "w", start wandering.
-                if (wanderTargetObj == nullptr) {
-                    if (kinemMouseClickObj != nullptr) {
-                        delete kinemMouseClickObj;
-                        kinemMouseClickObj = nullptr;
-                    }
-                    wanderTargetObj = new Kinematic(sf::Vector2f(0.0f, 0.0f), 0, sf::Vector2f(0, 0), 0);
-                }
-            } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-                // If press "q", do 2nd type of wandering.
-                if (wanderAltTargetObj == nullptr) {
-                    if (kinemMouseClickObj != nullptr) {
-                        delete kinemMouseClickObj;
-                        kinemMouseClickObj = nullptr;
-                    }
-                    wanderAltTargetObj = new Kinematic(sf::Vector2f(0.0f, 0.0f), 0, sf::Vector2f(0, 0), 0);
-                }
-            } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-                // If press "d", stop wandering.
-                if (wanderTargetObj != nullptr) {
-                    delete wanderTargetObj;
-                    wanderTargetObj = nullptr;
-                }
-                if (wanderAltTargetObj != nullptr) {
-                    delete wanderAltTargetObj;
-                    wanderAltTargetObj = nullptr;
-                }
+            // wanderTargetObj, kinemMouseClickObj, wanderAltTargetObj, 
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
                 isMatchingMouseVelocity = false;
                 isFlockingOn = false;
             }
@@ -353,20 +316,7 @@ int main()
 
                     spriteB->dropSomeCrumbs();
                 }
-                if (wanderTargetObj != nullptr) {
-                    if (wanderObj == nullptr) {
-                        wanderObj = new Wander(wanderTargetObj, spriteB);
-                    }
-                    wanderObj->execute(timeDelta);
-                    spriteB->dropSomeCrumbs();
-                }
-                if (wanderAltTargetObj != nullptr) {
-                    if (wanderAltObj == nullptr) {
-                        wanderAltObj = new WanderAlt(wanderTargetObj, spriteB);
-                    }
-                    wanderAltObj->execute(timeDelta);
-                    spriteB->dropSomeCrumbs();
-                }
+
                 if (mouseFollowArriveBehavior != nullptr) {
                     // VelocityMatch execute and look where going execute combined
                     if (sdMouseVelMatchAndLook != nullptr) {
@@ -407,14 +357,6 @@ int main()
     if (kinemMouseClickObj != nullptr) {
         delete kinemMouseClickObj;
         kinemMouseClickObj = nullptr; // To prevent dangling pointers
-    }
-    if (wanderTargetObj != nullptr) {
-        delete wanderTargetObj;
-        wanderTargetObj = nullptr;
-    }
-    if (wanderAltTargetObj != nullptr) {
-        delete wanderAltTargetObj;
-        wanderAltTargetObj = nullptr;
     }
 
     return 0;
